@@ -5,7 +5,6 @@ import {NavLink} from 'react-router-dom';
 
 function Home(props) {
     const {route} = props;
-    console.log(route)
     return (
         <>
             <Top>
