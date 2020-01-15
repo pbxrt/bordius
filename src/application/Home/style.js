@@ -28,10 +28,12 @@ export const Tab = styled.div`
         font-size: 14px;
         color: #e4e4e4;
         &.selected {
-            padding: 3px 0;
-            font-weight: 700;
             color: #f1f1f1;
-            border-bottom: 2px solid #f1f1f1;
+            span {
+                font-weight: 700;
+                padding-bottom: 2px;
+                border-bottom: 2px solid #f1f1f1;
+            }
         }
     }
 `;
