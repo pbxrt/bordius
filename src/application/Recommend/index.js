@@ -5,9 +5,11 @@ import {connect} from 'react-redux';
 import * as actionTypes from './store/actionCreator';
 import Scroll from '../../components/scroll';
 import { Content } from './style.js'
+import {forceCheck} from 'react-lazyload';
+import Loading from '../../components/loading/index';
 
 function Recommend(props) {
-    const {bannerList, recommendList} = props;
+    const {bannerList, recommendList, enterLoading} = props;
     const {getBannerDataDispatch, getRecommendListDataDispatch} = props;
 
     useEffect(() => {
@@ -20,12 +22,13 @@ function Recommend(props) {
 
     return (
         <Content>
-            <Scroll className="list">
+            <Scroll className="list" onScroll={forceCheck}>
                 <div>
                     <Slider bannerList={bannerListJS}></Slider>
                     <RecommendList recommendList={recommendListJS} />      
                 </div>
             </Scroll>
+            {enterLoading && <Loading />}
         </Content>
     )
 }
@@ -33,7 +36,8 @@ function Recommend(props) {
 // 映射全局的 redux state 到组件的props上
 const mapStateToProps = state => ({
     bannerList: state.getIn(['recommend', 'bannerList']),
-    recommendList: state.getIn(['recommend', 'recommendList'])
+    recommendList: state.getIn(['recommend', 'recommendList']),
+    enterLoading: state.getIn(['recommend', 'enterLoading'])
 });
 
 // 映射 dispatch 到 props 上
