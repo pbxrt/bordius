@@ -3,10 +3,10 @@ import Slider from '../../components/slider';
 import RecommendList from '../../components/list';
 import {connect} from 'react-redux';
 import * as actionTypes from './store/actionCreator';
-import Scroll from '../../components/scroll';
+import Scroll from '../../baseUI/scroll';
 import { Content } from './style.js'
 import {forceCheck} from 'react-lazyload';
-import Loading from '../../components/loading/index';
+import Loading from '../../baseUI/loading/index';
 
 function Recommend(props) {
     const {bannerList, recommendList, enterLoading} = props;
