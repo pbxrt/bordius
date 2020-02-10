@@ -33,4 +33,7 @@ function Singers() {
     );
 }
 
-export default Singers;
+
+
+export default React.memo(Singers);
+

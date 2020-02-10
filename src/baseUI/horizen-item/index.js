@@ -46,4 +46,8 @@ Horizen.propTypes = {
     handleClick: PropTypes.func
 };
 
-export default Horizen;
+function areEqual(prevProps, nextProps) {
+    return prevProps.oldVal === nextProps.oldVal;
+}
+
+export default memo(Horizen, areEqual);
