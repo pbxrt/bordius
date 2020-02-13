@@ -32,13 +32,13 @@ const LoadingWrapper = styled.div`
     }
 `;
 
-function Loading() {
-    return (
+function Loading(props) {
+    return props.show ? (
         <LoadingWrapper>
             <div />
             <div />
         </LoadingWrapper>
-    )
+    ) : null;
 }
 
 export default React.memo(Loading);

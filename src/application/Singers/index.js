@@ -3,6 +3,7 @@ import Horizen from '../../baseUI/horizen-item';
 import {categoryTypes, alphaTypes} from '../../api/config';
 import { NavContainer, ListContainer, List, ListItem } from './style';
 import Scroll from '../../baseUI/scroll';
+import Loading from '../../baseUI/loading';
 import {connect} from 'react-redux';
 import {
     getSingerList,
@@ -43,7 +44,8 @@ function Singers(props) {
         singerList,
         pageCount,
         pullUpLoading,
-        pullDownLoading
+        pullDownLoading,
+        enterLoading
     } = props;
     const {
         getHotSingerDispatch,
@@ -89,6 +91,7 @@ function Singers(props) {
                 </Horizen>
             </NavContainer>
             <ListContainer>
+                <Loading show={enterLoading}></Loading>
                 <Scroll
                     pullUp={handlePullUp}
                     pullDown={handlePullDown}
