@@ -2,11 +2,34 @@ import React, {useState, useRef, useEffect, forwardRef, useImperativeHandle} fro
 import BScroll from 'better-scroll';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Loading from '../loading';
+import LoadingV2 from '../loading-v2';
 
 const ScrollContainer = styled.div`
     width: 100%;
     height: 100%;
     overflow: hidden;
+`;
+
+const PullUpLoading = styled.div`
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    z-index: 100;
+`;
+
+export const PullDownLoading = styled.div`
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 30px;
+    margin: auto;
+    z-index: 100;
 `;
 
 const Scroll = forwardRef((props, ref) => {
@@ -91,10 +114,17 @@ const Scroll = forwardRef((props, ref) => {
             return bScroll || null;
         }
     }));
-
+    const pullUpDisplayStyle = pullUpLoading ? {display: ''} : {display: 'none'};
+    const pullDownDisplayStyle = pullDownLoading ? {display: ''} : {display: 'none'};
     return (
         <ScrollContainer ref={scrollContainerRef}>
             {props.children}
+            <PullUpLoading style={pullUpDisplayStyle}>
+                <Loading></Loading>
+            </PullUpLoading>
+            <PullDownLoading style={pullDownDisplayStyle}>
+                <LoadingV2></LoadingV2>
+            </PullDownLoading>
         </ScrollContainer>
     );
 

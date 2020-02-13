@@ -17,14 +17,6 @@ import {
     changeAlpha
 } from './store/actionCreators';
 
-// const singersList = [1,2,3,4,5,6,7,8,9,10,11,12].map(item => {
-//     return {
-//         picUrl: 'https://p2.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg',
-//         name: 'Linko',
-//         accountId: 8379565
-//     }
-// });
-
 const renderSingerList = (singersList = []) => {
     return (
         <List>
@@ -45,7 +37,14 @@ const renderSingerList = (singersList = []) => {
 }
 
 function Singers(props) {
-    const {category, alpha, singerList} = props;
+    const {
+        category,
+        alpha,
+        singerList,
+        pageCount,
+        pullUpLoading,
+        pullDownLoading
+    } = props;
     const {
         getHotSingerDispatch,
         updateDispatch,
@@ -65,6 +64,14 @@ function Singers(props) {
         getHotSingerDispatch();
     }, []);
 
+    const handlePullUp = () => {
+        pullUpRefreshDispatch(category, alpha, category === '', pageCount)
+    }
+
+    const handlePullDown = () => {
+        pullDownRefreshDispatch(category, alpha);
+    }
+
     return (
         <div>
             <NavContainer>
@@ -82,7 +89,12 @@ function Singers(props) {
                 </Horizen>
             </NavContainer>
             <ListContainer>
-                <Scroll>
+                <Scroll
+                    pullUp={handlePullUp}
+                    pullDown={handlePullDown}
+                    pullUpLoading={pullUpLoading}
+                    pullDownLoading={pullDownLoading}
+                >
                     {renderSingerList(singerList.toJS())}
                 </Scroll>
             </ListContainer>
@@ -106,6 +118,7 @@ const mapDispatchToProps = dispatch => ({
     getHotSingerDispatch() {
         dispatch(getHotSingerList());
     },
+
     updateDispatch(category, alpha) {
         dispatch(changeCategory(category));
         dispatch(changeAlpha(alpha));
@@ -113,6 +126,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeEnterLoading(true));
         dispatch(getSingerList(category, alpha));
     },
+
     pullUpRefreshDispatch(category, alpha, hot, count) {
         dispatch(changePullUpLoading(true));
         dispatch(changePageCount(count + 1));
@@ -122,6 +136,7 @@ const mapDispatchToProps = dispatch => ({
             dispatch(refreshMoreSingerList(category, alpha));
         }
     },
+
     pullDownRefreshDispatch(category, alpha) {
         dispatch(changePullDownLoading(true));
         dispatch(changePageCount(0));
