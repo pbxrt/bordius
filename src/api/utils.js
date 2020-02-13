@@ -8,3 +8,28 @@ export const getCount = count => {
         return Math.floor(count / 10000000) / 10 + '亿'
     }
 }
+
+// export const debounce = (func, delay) => {
+//     let timer;
+//     return function(...args) {
+//         if (timer) {
+//             clearTimeout(timer)
+//         }
+//         timer = setTimeout(() => {
+//             func.apply(this, args);
+//             clearTimeout(timer);
+//         }, delay);
+//     }
+// }
+
+export const debounce = (fn, delay) => {
+    let preTime;
+    return (...args) => {
+        if (preTime && Date.now() - preTime < delay) {
+            preTime = Date.now();
+            return;
+        }
+        fn.apply(this, args);
+        preTime = Date.now();
+    }
+}

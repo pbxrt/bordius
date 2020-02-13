@@ -1,9 +1,10 @@
-import React, {useState, useRef, useEffect, forwardRef, useImperativeHandle} from 'react';
+import React, {useState, useRef, useEffect, forwardRef, useImperativeHandle, useMemo} from 'react';
 import BScroll from 'better-scroll';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Loading from '../loading';
 import LoadingV2 from '../loading-v2';
+import {debounce} from '../../api/utils';
 
 const ScrollContainer = styled.div`
     width: 100%;
@@ -39,6 +40,13 @@ const Scroll = forwardRef((props, ref) => {
     const { direction, click, refresh, pullUpLoading, pullDownLoading, bounceTop, bounceBottom } = props;
     const { pullUp, pullDown, onScroll } = props;
 
+    let pullUpDebounce = useMemo(() => {
+        return debounce(pullUp, 300);
+    }, [pullUp]);
+
+    let pullDownDebounce = useMemo(() => {
+        return debounce(pullDown, 300);
+    }, [pullDown]);
     // 创建better-scroll
     useEffect(() => {
         const scroll = new BScroll(scrollContainerRef.current, {
@@ -81,7 +89,7 @@ const Scroll = forwardRef((props, ref) => {
         if (!bScroll || !pullUp) return;
         bScroll.on('scrollEnd', () => {
             if (bScroll.y <= bScroll.maxScrollY + 100) {
-                pullUp();
+                pullUpDebounce();
             }
         });
         return () => {
@@ -94,7 +102,7 @@ const Scroll = forwardRef((props, ref) => {
         if (!bScroll || !pullDown) return;
         bScroll.on('touchEnd', (pos) => {
             if (pos.y > 50) {
-                pullDown();
+                pullDownDebounce();
             }
         });
 
