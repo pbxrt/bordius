@@ -5,6 +5,8 @@ import { NavContainer, ListContainer, List, ListItem } from './style';
 import Scroll from '../../baseUI/scroll';
 import Loading from '../../baseUI/loading';
 import {connect} from 'react-redux';
+import LazyLoad, {forceCheck} from 'react-lazyload';
+import holderImg from './singer.png';
 import {
     getSingerList,
     getHotSingerList,
@@ -26,7 +28,9 @@ const renderSingerList = (singersList = []) => {
                     return (
                         <ListItem key={item.accountId + '' + index}>
                             <div className="img_wrapper">
-                                <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
+                                <LazyLoad placeholder={<img width="100%" height="100%" src={holderImg} alt="music" />}>
+                                    <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
+                                </LazyLoad>
                             </div>
                             <span className="name">{item.name}</span>
                         </ListItem>
@@ -97,6 +101,7 @@ function Singers(props) {
                     pullDown={handlePullDown}
                     pullUpLoading={pullUpLoading}
                     pullDownLoading={pullDownLoading}
+                    onScroll={forceCheck}
                 >
                     {renderSingerList(singerList.toJS())}
                 </Scroll>
