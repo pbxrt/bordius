@@ -25,7 +25,6 @@ const HeaderContainer = styled.div`
 
 const Header = React.forwardRef((props, ref) => {
     const {handleClick, title} = props;
-    console.log({title})
     return (
         <HeaderContainer ref={ref}>
             <i className="iconfont back" onClick={handleClick}>&#xe655;</i>
