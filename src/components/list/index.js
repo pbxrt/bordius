@@ -15,7 +15,7 @@ function RecommendList(props) {
                             <div className="img_wrapper">
                                 <div className="decorate"></div>
                                 <LazyLoad placeholder={<img width="100%" height="100%" src={musicPic} alt="music" />}>
-                                    <img src={item.picUrl + '?param=300x300'} width="100%" height="100%" />
+                                    <img src={item.picUrl + '?param=300x300'} width="100%" height="100%" alt="img" />
                                 </LazyLoad>
                                 <div className="play_count">
                                     <i className="iconfont play">&#xe885;</i>

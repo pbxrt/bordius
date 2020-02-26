@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getRankList} from './store/index';
 import {filterIndex, filterIdx} from '../../api/utils';
 import Loading from '../../baseUI/loading';
 import Scroll from '../../baseUI/scroll/index';
-import { renderRoutes } from 'react-router-config';
 import {
     Container,
     List,
@@ -12,49 +12,11 @@ import {
     SongList
 } from './style';
 
-const enterDetail = (name) => {
-      const idx = filterIdx(name);
-      if(idx === null) {
-        alert("暂无相关数据");
-        return;
-      } 
-  }
-
-const renderSongList = list => (
-    list.length ? (
-        <SongList>
-            {
-                list.map((item, index) => (
-                    <li key={index}>{index+1}.{item.first}-{item.second}</li>
-                ))
-            }
-        </SongList>
-    ) : null
-);
-
-const renderRankList = (list, global) => {
-    return (
-        <List globalRank={global}>
-            {
-                list.map(item => (
-                    <ListItem key={item.coverImgUrl} tracks={item.tracks} onClick={() => enterDetail(item.name)}>
-                        <div className="img_wrapper">
-                            <img src={item.coverImgUrl} alt="music" />
-                            <div className="decorate"></div>
-                            <span className="update_frequency">{item.updateFrequency}</span>
-                        </div>
-                        {renderSongList(item.tracks)}
-                    </ListItem>
-                ))
-            }
-        </List>
-    )
-}
+import {renderRoutes} from 'react-router-config';
 
 function Rank(props) {
-    const {rankList, loading} = props;
+    const {rankList, loading, history} = props;
     const {getRankListDataDispatch} = props;
-
     const list = rankList.toJS();
     let globalStartIndex = 0;
     let officialList = [];
@@ -70,6 +32,43 @@ function Rank(props) {
     useEffect(() => {
         getRankListDataDispatch();
     }, []);
+
+    const enterDetail = (detail) => {
+        history.push(`/rank/${detail.id}`);
+    }
+
+    const renderSongList = list => (
+        list.length ? (
+            <SongList>
+                {
+                    list.map((item, index) => (
+                        <li key={index}>{index+1}.{item.first}-{item.second}</li>
+                    ))
+                }
+            </SongList>
+        ) : null
+    );
+
+    const renderRankList = (list, global) => {
+        return (
+            <List globalRank={global}>
+                {
+                    list.map(item => (
+                        <ListItem key={item.coverImgUrl} tracks={item.tracks} onClick={() => enterDetail(item)}>
+                            <div className="img_wrapper">
+                                <img src={item.coverImgUrl} alt="music" />
+                                <div className="decorate"></div>
+                                <span className="update_frequency">{item.updateFrequency}</span>
+                            </div>
+                            {renderSongList(item.tracks)}
+                        </ListItem>
+                    ))
+                }
+            </List>
+        )
+    }
+
+
     return (
         <Container>
             <Scroll>
@@ -97,5 +96,5 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Rank));
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(withRouter(Rank)));
 
