@@ -115,7 +115,7 @@ function Album (props) {
         let headerDOM = headerEl.current;
 
         if (pos.y < minScrollY) {
-            headerDOM.style.opacity = Math.min(1, (rate - 1) / 2);
+            headerDOM.style.opacity = Math.min(1, (rate - 1) * 0.25);
             if (isMarquee) return;
             headerDOM.style.backgroundColor = style['theme-color'];
             setTitle(currentAlbum.name);
