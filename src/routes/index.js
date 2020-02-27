@@ -21,7 +21,6 @@ export default [
             {
                 path: '/recommend',
                 component: Recommend,
-                exact: true,
                 routes: [
                     {
                         path: '/recommend/:id',
