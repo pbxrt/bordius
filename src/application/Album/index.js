@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
     Container,
     TopDesc,
@@ -6,14 +6,19 @@ import {
     SongList,
     SongItem
 } from './style';
+import style from '../../assets/global-style';
 import {CSSTransition} from 'react-transition-group';
 import Header from '../../baseUI/header/index';
 import Scroll from '../../baseUI/scroll/index';
 import {getName} from '../../api/utils';
 
+export const HEADER_HEIGHT = 45;
+
 function Album (props) {
     const [showStatus, setShowStatus] = useState(true);
-
+    const [title, setTitle] = useState('歌单');
+    const [isMarquee, setIsMarquee] = useState(false);
+    const headerEl = useRef();
     const currentAlbum = {
         creator: {
             avatarUrl: "http://p1.music.126.net/O9zV6jeawR43pfiK2JaVSw==/109951164232128905.jpg",
@@ -43,7 +48,56 @@ function Album (props) {
                 al: {
                     name: "学友 热"
                 }
-            }
+            },
+            {
+                name: "我真的受伤了",
+                ar: [{name: "张学友"}, {name: "周华健"}],
+                al: {
+                    name: "学友 热"
+                }
+            },
+            {
+                name: "我真的受伤了",
+                ar: [{name: "张学友"}, {name: "周华健"}],
+                al: {
+                    name: "学友 热"
+                }
+            },
+            {
+                name: "我真的受伤了",
+                ar: [{name: "张学友"}, {name: "周华健"}],
+                al: {
+                    name: "学友 热"
+                }
+            },
+            {
+                name: "我真的受伤了",
+                ar: [{name: "张学友"}, {name: "周华健"}],
+                al: {
+                    name: "学友 热"
+                }
+            },
+            {
+                name: "我真的受伤了",
+                ar: [{name: "张学友"}, {name: "周华健"}],
+                al: {
+                    name: "学友 热"
+                }
+            },
+            {
+                name: "我真的受伤了",
+                ar: [{name: "张学友"}, {name: "周华健"}],
+                al: {
+                    name: "学友 热"
+                }
+            },
+            {
+                name: "我真的受伤了",
+                ar: [{name: "张学友"}, {name: "周华健"}],
+                al: {
+                    name: "学友 热"
+                }
+            },
         ]
     };
 
@@ -53,6 +107,26 @@ function Album (props) {
 
     const getCount = n => {
         return (n / 10000).toFixed(1) + '万';
+    }
+
+    const handleScroll = pos => {
+        let minScrollY = -HEADER_HEIGHT;
+        let rate = Math.abs(pos.y / minScrollY);
+        let headerDOM = headerEl.current;
+
+        if (pos.y < minScrollY) {
+            headerDOM.style.opacity = Math.min(1, (rate - 1) / 2);
+            if (isMarquee) return;
+            headerDOM.style.backgroundColor = style['theme-color'];
+            setTitle(currentAlbum.name);
+            setIsMarquee(true);
+        } else {
+            if (!isMarquee) return;
+            headerDOM.style.backgroundColor = '';
+            headerDOM.style.opacity = 1;
+            setTitle('歌单');
+            setIsMarquee(false);
+        }
     }
 
     return (
@@ -65,8 +139,8 @@ function Album (props) {
             onExited={props.history.goBack}
         >
             <Container>
-                <Header title={"返回"} handleClick={handleBack}></Header>
-                <Scroll bounceTop={false}>
+                <Header title={title} handleClick={handleBack} ref={headerEl} isMarquee={isMarquee}></Header>
+                <Scroll bounceTop={false} onScroll={handleScroll}>
                     <div>
                         <TopDesc background={currentAlbum.coverImgUrl} avatar={currentAlbum.creator.avatarUrl}>
                             <div className="background">
