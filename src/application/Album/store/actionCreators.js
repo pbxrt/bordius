@@ -2,12 +2,12 @@ import {CHANGE_CURRENT_ALBUM, CHANGE_ENTER_LOADING} from './constants';
 import {getAlbumDetailRequest} from '../../../api/request';
 import {fromJS} from 'immutable';
 
-const changeCurrentAlbum = data => ({
+export const changeCurrentAlbum = data => ({
     type: CHANGE_CURRENT_ALBUM,
     data: fromJS(data)
 });
 
-const changeEnterLoading = data => ({
+export const changeEnterLoading = data => ({
     type: CHANGE_ENTER_LOADING,
     data
 });

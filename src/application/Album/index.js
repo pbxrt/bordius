@@ -10,14 +10,15 @@ import style from '../../assets/global-style';
 import {CSSTransition} from 'react-transition-group';
 import Header from '../../baseUI/header/index';
 import Scroll from '../../baseUI/scroll/index';
+import Loading from '../../baseUI/loading/index';
 import {getName, isEmptyObject} from '../../api/utils';
 import {connect} from 'react-redux';
-import {getAlbumList} from './store/index';
+import {getAlbumList, changeEnterLoading} from './store/index';
 
 export const HEADER_HEIGHT = 45;
 
 function Album (props) {
-    let {currentAlbum} = props;
+    let {currentAlbum, enterLoading} = props;
     currentAlbum = currentAlbum.toJS();
     const {getAlbumListDispatch} = props;
     const [showStatus, setShowStatus] = useState(true);
@@ -68,6 +69,7 @@ function Album (props) {
             onExited={props.history.goBack}
         >
             <Container>
+                <Loading show={enterLoading} />
                 <Header title={title} handleClick={handleBack} ref={headerEl} isMarquee={isMarquee}></Header>
                 {
                     isEmptyObject(currentAlbum) ? null : (
@@ -155,6 +157,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getAlbumListDispatch(id) {
         dispatch(getAlbumList(id));
+        dispatch(changeEnterLoading(true));
     }
 })
 
