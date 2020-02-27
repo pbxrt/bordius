@@ -19,27 +19,7 @@ import {
     changeCategory,
     changeAlpha
 } from './store/actionCreators';
-
-const renderSingerList = (singersList = []) => {
-    return (
-        <List>
-            {
-                singersList.map((item, index) => {
-                    return (
-                        <ListItem key={item.accountId + '' + index}>
-                            <div className="img_wrapper">
-                                <LazyLoad placeholder={<img width="100%" height="100%" src={holderImg} alt="music" />}>
-                                    <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
-                                </LazyLoad>
-                            </div>
-                            <span className="name">{item.name}</span>
-                        </ListItem>
-                    )
-                })
-            }
-        </List>
-    );
-}
+import {renderRoutes} from 'react-router-config';
 
 function Singers(props) {
     const {
@@ -78,6 +58,29 @@ function Singers(props) {
         pullDownRefreshDispatch(category, alpha);
     }
 
+    const renderSingerList = () => {
+        const list = singerList.toJS();
+        const enterDetail = id => props.history.push(`/singers/id`);
+        return (
+            <List>
+                {
+                    list.map((item, index) => {
+                        return (
+                            <ListItem key={item.accountId + '' + index} onClick={() => enterDetail(item.id)}>
+                                <div className="img_wrapper">
+                                    <LazyLoad placeholder={<img width="100%" height="100%" src={holderImg} alt="music" />}>
+                                        <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music" />
+                                    </LazyLoad>
+                                </div>
+                                <span className="name">{item.name}</span>
+                            </ListItem>
+                        )
+                    })
+                }
+            </List>
+        );
+    }
+
     return (
         <div>
             <NavContainer>
@@ -106,6 +109,7 @@ function Singers(props) {
                     {renderSingerList(singerList.toJS())}
                 </Scroll>
             </ListContainer>
+            {renderRoutes(props.route.routes)}
         </div>
     );
 }
