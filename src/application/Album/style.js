@@ -136,3 +136,89 @@ export const Menu = styled.div`
     };
     z-index: 1;
 `;
+
+export const SongList = styled.div`
+    border-radius: 10px;
+    opacity: 0.98;
+    ${props => props.showBackground ? `background: ${style['highlight-background-color']}` : ''}
+    > .first_line {
+        box-sizing: border-box;
+        padding: 10px 0;
+        margin-left: 10px;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid ${style['border-color']};
+        > .play_all {
+            display: flex;
+            align-items: center;
+            line-height: 24px;
+            color: ${style['font-color-desc']};
+            > .icon-font {
+                font-size: 24px;
+                margin-right: 10px;
+            }
+            .sum {
+                font-size: ${style['font-size-s']};
+                color: ${style ["font-color-desc-v2"]};
+            }
+        }
+        .add_list, .isCollected {
+            display: flex;
+            align-items: center;
+            width: 130px;
+            background: ${style['theme-color']};
+            color: ${style['font-color-light']};
+            border-radius: 3px;
+            > .iconfont {
+                font-size: 10px;
+                margin: 0 5px 0 10px;
+            }
+            > span {
+                font-size: 14px;
+                line-height: 34px;
+            }
+        }
+        .isCollected {
+            display: flex;
+            background: ${style['background-color']};
+            color: ${style['font-color-desc']};
+        }
+    }
+`;
+
+export const SongItem = styled.ul`
+    > li {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        > .index {
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+        > .info {
+            box-sizing: border-box;
+            flex: 1;
+            display: flex;
+            height: 100%;
+            padding: 5px 0;
+            flex-direction: column;
+            justify-content: space-around;
+            border-bottom: 1px solid ${style['border-color']};
+            ${style.noWrap()}
+            > span {
+                ${style.noWrap()}
+            }
+            > span:first-child {
+                color: ${style['font-color-desc']};
+            }
+            > span:last-child {
+                font-size: ${style['font-size-s']};
+                color: #bba8a8;
+            }
+        }
+    }
+`;

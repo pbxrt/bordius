@@ -3,10 +3,13 @@ import {
     Container,
     TopDesc,
     Menu,
+    SongList,
+    SongItem
 } from './style';
 import {CSSTransition} from 'react-transition-group';
 import Header from '../../baseUI/header/index';
 import Scroll from '../../baseUI/scroll/index';
+import {getName} from '../../api/utils';
 
 function Album (props) {
     const [showStatus, setShowStatus] = useState(true);
@@ -47,6 +50,11 @@ function Album (props) {
     const handleBack = () => {
         setShowStatus(false);
     }
+
+    const getCount = n => {
+        return (n / 10000).toFixed(1) + '万';
+    }
+
     return (
         <CSSTransition
             in={showStatus}
@@ -98,6 +106,33 @@ function Album (props) {
                                 </div>
                             </Menu>
                         </TopDesc>
+                        <SongList>
+                            <div className="first_line">
+                                <div className="play_all">
+                                    <i className="iconfont">&#xe6e3;</i>
+                                    <span> 播放全部 <span className="sum">(共 {currentAlbum.tracks.length} 首)</span></span>
+                                </div>
+                                <div className="add_list">
+                                    <i className="iconfont">&#xe62d;</i>
+                                    <span> 收藏 ({getCount (currentAlbum.subscribedCount)})</span>
+                                </div>
+                            </div>
+                            <SongItem>
+                                {
+                                    currentAlbum.tracks.map((item, index) => (
+                                        <li key={index}>
+                                            <span className="index">{index + 1}</span>
+                                            <div className="info">
+                                                <span>{item.name}</span>
+                                                <span>
+                                                    {getName(item.ar)} - {item.al.name}
+                                                </span>
+                                            </div>
+                                        </li>
+                                    ))
+                                }
+                            </SongItem>
+                        </SongList>
                     </div>
                 </Scroll>
             </Container>
