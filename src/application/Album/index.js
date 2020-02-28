@@ -2,9 +2,7 @@ import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {
     Container,
     TopDesc,
-    Menu,
-    SongList,
-    SongItem
+    Menu
 } from './style';
 import style from '../../assets/global-style';
 import {CSSTransition} from 'react-transition-group';
@@ -14,6 +12,7 @@ import Loading from '../../baseUI/loading/index';
 import {getName, isEmptyObject} from '../../api/utils';
 import {connect} from 'react-redux';
 import {getAlbumList, changeEnterLoading} from './store/index';
+import SongsList from '../SongList';
 
 export const HEADER_HEIGHT = 45;
 
@@ -101,33 +100,7 @@ function Album (props) {
     );
 
     const renderSongList = () => (
-        <SongList>
-            <div className="first_line">
-                <div className="play_all">
-                    <i className="iconfont">&#xe6e3;</i>
-                    <span> 播放全部 <span className="sum">(共 {currentAlbum.tracks.length} 首)</span></span>
-                </div>
-                <div className="add_list">
-                    <i className="iconfont">&#xe62d;</i>
-                    <span> 收藏 ({getCount (currentAlbum.subscribedCount)})</span>
-                </div>
-            </div>
-            <SongItem>
-                {
-                    currentAlbum.tracks.map((item, index) => (
-                        <li key={index}>
-                            <span className="index">{index + 1}</span>
-                            <div className="info">
-                                <span>{item.name}</span>
-                                <span>
-                                    {getName(item.ar)} - {item.al.name}
-                                </span>
-                            </div>
-                        </li>
-                    ))
-                }
-            </SongItem>
-        </SongList>
+        <SongsList collectCount={currentAlbum.subscribedCount} showCollect={true} songs={currentAlbum.tracks}></SongsList>
     );
 
     return (
