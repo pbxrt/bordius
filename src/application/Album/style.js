@@ -1,6 +1,21 @@
 import styled from 'styled-components';
 import style from '../../assets/global-style';
 
+/*
+
+进入时的class变更情况
+
+1. fly-appear ->
+2. fly-appear fly-appear-active ->
+3. fly-appear-done fly-enter-done
+
+退出时的class变更情况
+
+1. fly-appear-done fly-enter-done ->
+2. fly-exit fly-exit-active
+
+*/
+
 export const Container = styled.div`
     position: fixed;
     top: 0;
@@ -10,17 +25,17 @@ export const Container = styled.div`
     z-index: 100;
     background: ${style['background-color']};
     transform-origin: right bottom;
-    &.fly-appear, &.fly-enter {
+    &.fly-appear {
         transform: rotateZ(30deg) translate3d(100%, 0, 0);
     }
-    &.fly-appear-active, &.fly-enter-active {
+
+    &.fly-appear.fly-appear-active,
+    &.fly-appear-done.fly-enter-done {
         transition: transform 0.3s;
         transform: rotateZ(0deg) translate3d(0, 0, 0);
     }
-    &.fly-exit {
-        transform: rotateZ(0deg) translate3d(0, 0, 0);
-    }
-    &.fly-exit-active {
+
+    &.fly-exit.fly-exit-active {
         transition: transform 0.3s;
         transform: rotateZ(30deg) translate3d(100%, 0, 0);
     }

@@ -1,5 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {connect} from 'react-redux';
+import MiniPlayer from './miniPlayer';
 
 import {
     changePlayingState,
@@ -12,8 +13,17 @@ import {
 } from './store';
 
 function Player(props) {
+    const song = {
+        ar: [{name: "薛之谦"}],
+        name: '测试',
+        al: {
+            picUrl: 'http://p2.music.126.net/OuL80LuI347696oR98b3SA==/109951164738867906.jpg'
+        }
+    };
     return (
-        <div>player</div>
+        <div>
+            <MiniPlayer song={song} />
+        </div>
     );
 }
 
