@@ -46,28 +46,6 @@ function Singer(props) {
         // eslint-disable-next-line
     }, []);
 
-    const setShowStatusFalse = useCallback(() => {
-        setShowStatus(false);
-    }, []);
-    // const artist = {
-    //     picUrl: 'https://p1.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg',
-    //     name: "薛之谦",
-    //     hotSongs: [
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 1 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 2 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 3 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 4 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 5 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 6 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 7 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 8 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 9 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 10 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 11 },
-    //         { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 12 },
-    //     ]
-    // };
-
     const handleScroll = useCallback(pos => {
         let height = initialHeight.current;
         const newY = pos.y;
@@ -106,7 +84,7 @@ function Singer(props) {
             imageDOM.style.paddingTop = 0;
             imageDOM.style.zIndex = 99;
         }
-    });
+    }, []);
 
     return (
         <CSSTransition

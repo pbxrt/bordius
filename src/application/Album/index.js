@@ -9,7 +9,7 @@ import {CSSTransition} from 'react-transition-group';
 import Header from '../../baseUI/header/index';
 import Scroll from '../../baseUI/scroll/index';
 import Loading from '../../baseUI/loading/index';
-import {getName, isEmptyObject} from '../../api/utils';
+import {isEmptyObject} from '../../api/utils';
 import {connect} from 'react-redux';
 import {getAlbumList, changeEnterLoading} from './store/index';
 import SongsList from '../SongList';
@@ -27,16 +27,13 @@ function Album (props) {
     useEffect(() => {
         const id = props.match.params.id;
         getAlbumListDispatch(id);
+        // eslint-disable-next-line
     }, []);
 
     // useCallback 能够帮我们在依赖不变的情况保持一样的函数引用，最大程度地节约浏览器渲染性能。
     const handleBack = useCallback(() => {
         setShowStatus(false);
-    });
-
-    const getCount = n => {
-        return (n / 10000).toFixed(1) + '万';
-    }
+    }, []);
 
     const handleScroll = useCallback(pos => {
         let minScrollY = -HEADER_HEIGHT;
@@ -56,7 +53,7 @@ function Album (props) {
             setTitle('歌单');
             setIsMarquee(false);
         }
-    }, [currentAlbum]);
+    }, [currentAlbum.name, isMarquee]);
 
     const renderTopDesc = () => (
         <TopDesc background={currentAlbum.coverImgUrl} avatar={currentAlbum.creator.avatarUrl}>

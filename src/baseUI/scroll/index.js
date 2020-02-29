@@ -64,6 +64,7 @@ const Scroll = forwardRef((props, ref) => {
         return () => {
             setBScroll(null);
         }
+        // eslint-disable-next-line
     }, []);
 
     // 每次重新渲染，刷新实例，防止无法滑动
@@ -95,7 +96,7 @@ const Scroll = forwardRef((props, ref) => {
         return () => {
             bScroll.off('scrollEnd');
         };
-    }, [pullUp, bScroll]);
+    }, [pullUp, bScroll, pullUpDebounce]);
 
     // 设定下拉刷新
     useEffect(() => {
@@ -109,7 +110,7 @@ const Scroll = forwardRef((props, ref) => {
         return () => {
             bScroll.off('touchEnd');
         };
-    }, [pullDown, bScroll]);
+    }, [pullDown, bScroll, pullDownDebounce]);
 
     useImperativeHandle(ref, () => ({
         refresh() {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Horizen from '../../baseUI/horizen-item';
 import {categoryTypes, alphaTypes} from '../../api/config';
 import { NavContainer, ListContainer, List, ListItem } from './style';
@@ -48,6 +48,7 @@ function Singers(props) {
 
     useEffect(() => {
         getHotSingerDispatch();
+        // eslint-disable-next-line
     }, []);
 
     const handlePullUp = () => {

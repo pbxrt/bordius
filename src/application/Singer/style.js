@@ -55,8 +55,8 @@ export const CollectButton = styled.div`
     height: 40px;
     margin-top: -55px;
     z-index: 50;
-    background: ${style ["theme-color"]};
-    color: ${style ["font-color-light"]};
+    background: ${style["theme-color"]};
+    color: ${style["font-color-light"]};
     border-radius: 20px;
     text-align: center;
     font-size: 0;

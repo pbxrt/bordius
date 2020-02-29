@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getRankList} from './store/index';
-import {filterIndex, filterIdx} from '../../api/utils';
+import {filterIndex} from '../../api/utils';
 import Loading from '../../baseUI/loading';
 import Scroll from '../../baseUI/scroll/index';
 import {
@@ -22,7 +22,7 @@ function Rank(props) {
     let officialList = [];
     let globalList = [];
     if (list.length) {
-        let globalStartIndex = filterIndex(list);
+        globalStartIndex = filterIndex(list);
         officialList = list.slice(0, globalStartIndex);
         globalList = list.slice(globalStartIndex);
     }
@@ -31,6 +31,7 @@ function Rank(props) {
 
     useEffect(() => {
         getRankListDataDispatch();
+        // eslint-disable-next-line
     }, []);
 
     const enterDetail = (detail) => {

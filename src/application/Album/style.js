@@ -93,7 +93,7 @@ export const TopDesc = styled.div`
             color: ${style['font-color-light']};
             font-weight: 700;
             line-height: 1.5;
-            font-size: ${style ["font-size-l"]};
+            font-size: ${style["font-size-l"]};
         }
         > .person {
             display: flex;
@@ -107,8 +107,8 @@ export const TopDesc = styled.div`
             }
             > .name {
                 line-height: 20px;
-                font-size: ${style ["font-size-m"]};
-                color: ${style ["font-color-desc-v2"]};
+                font-size: ${style["font-size-m"]};
+                color: ${style["font-color-desc-v2"]};
             }
         }
     }
