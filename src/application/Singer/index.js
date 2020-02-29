@@ -10,6 +10,7 @@ import {
 import Header from '../../baseUI/header';
 import SongsList from '../SongList';
 import Scroll from '../../baseUI/scroll';
+import {HEADER_HEIGHT} from '../../api/config';
 
 function Singer(props) {
     const [showStatus, setShowStatus] = useState(true);
@@ -22,13 +23,13 @@ function Singer(props) {
     // picture initial height
     const initialHeight = useRef(0);
 
-    const offset = 5;
+    const OFFSET = 5;
 
     useEffect(() => {
         let h = imageWrapper.current.offsetHeight;
-        songScrollWrapper.current.style.top = `${h - offset}px`;
+        songScrollWrapper.current.style.top = `${h - OFFSET}px`;
         initialHeight.current = h;
-        layer.current.style.top = `${h - offset}px`;
+        layer.current.style.top = `${h - OFFSET}px`;
         songScroll.current.refresh();
         // eslint-disable-next-line
     }, []);
@@ -37,7 +38,7 @@ function Singer(props) {
         setShowStatus(false);
     }, []);
     const artist = {
-        picUrl: "https://p2.music.126.net/W__FCWFiyq0JdPtuLJoZVQ==/109951163765026271.jpg",
+        picUrl: 'https://p1.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg',
         name: "薛之谦",
         hotSongs: [
             { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 1 },
@@ -54,6 +55,46 @@ function Singer(props) {
             { name: "我好像在哪见过你", ar: [{name: "薛之谦"}], al: { name: "薛之谦专辑" }, id: 12 },
         ]
     };
+
+    const handleScroll = useCallback(pos => {
+        let height = initialHeight.current;
+        const newY = pos.y;
+        const imageDOM = imageWrapper.current;
+        const buttonDOM = collectButton.current;
+        const headerDOM = header.current;
+        const layerDOM = layer.current;
+        const minScrollY = -(height - OFFSET) + HEADER_HEIGHT;
+
+        const percent = Math.abs(newY / height);
+
+        // 下拉
+        if (newY > 0) {
+            imageDOM.style.transform = `scale(${1 + percent})`;
+            buttonDOM.style.transform = `translateY(${newY}px)`;
+            layerDOM.style.top = `${height - OFFSET + newY}px`;
+        }
+
+        else if (newY >= minScrollY) {
+            layerDOM.style.top = `${height - OFFSET - Math.abs(newY)}px`;
+            layerDOM.style.zIndex = 1;;
+            imageDOM.style.paddingTop = '75%';
+            imageDOM.style.height = 0;
+            imageDOM.style.zIndex = -1;
+
+            buttonDOM.style.transform = `translateY(${newY}px)`;
+            buttonDOM.style.opacity = `${1 - percent * 2}`;
+        }
+
+        else if (newY < minScrollY) {
+            // 已经滑过 Header
+            layerDOM.style.top = `${HEADER_HEIGHT - OFFSET}px`;
+            layerDOM.style.zIndex = 1;
+            headerDOM.style.zIndex = 100;
+            imageDOM.style.height = `${HEADER_HEIGHT}px`;
+            imageDOM.style.paddingTop = 0;
+            imageDOM.style.zIndex = 99;
+        }
+    });
 
     return (
         <CSSTransition
@@ -79,7 +120,7 @@ function Singer(props) {
                 </CollectButton>
                 <BgLayer ref={layer}></BgLayer>
                 <SongListWrapper ref={songScrollWrapper}>
-                    <Scroll ref={songScroll}>
+                    <Scroll ref={songScroll} onScroll={handleScroll}>
                         <SongsList songs={artist.hotSongs} showCollect={false}></SongsList>
                     </Scroll>
                 </SongListWrapper>

@@ -60,7 +60,7 @@ function Singers(props) {
 
     const renderSingerList = () => {
         const list = singerList.toJS();
-        const enterDetail = id => props.history.push(`/singers/id`);
+        const enterDetail = id => props.history.push(`/singers/${id}`);
         return (
             <List>
                 {
