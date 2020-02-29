@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import MiniPlayer from './miniPlayer';
-
+import NormalPlayer from './normalPlayer';
 import {
     changePlayingState,
     changeShowPlayList,
@@ -23,6 +23,7 @@ function Player(props) {
     return (
         <div>
             <MiniPlayer song={song} />
+            <NormalPlayer song={song} />
         </div>
     );
 }
