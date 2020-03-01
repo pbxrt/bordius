@@ -1,5 +1,5 @@
 import React, {useRef, useEffect} from 'react';
-import {getName} from '../../../api/utils';
+import {getName, prefixStyle} from '../../../api/utils';
 import {
     NormalPlayerContainer,
     Top,
@@ -10,6 +10,8 @@ import {
 } from './style';
 import {CSSTransition} from 'react-transition-group';
 import animations from 'create-keyframe-animation';
+
+const transform = prefixStyle('transform');
 
 function NormalPlayer(props) {
     const {song, fullScreen, toggleFullScreen} = props;
@@ -47,6 +49,21 @@ function NormalPlayer(props) {
         cdWrapperRef.current.style.animation = '';
     }
 
+    const leave = () => {
+        const cdWrapperDOM = cdWrapperRef.current;
+        if (!cdWrapperDOM) return;
+        cdWrapperDOM.style.transition = 'all 0.4s';
+        const {x, y, scale} = _getPosAndScale();
+        cdWrapperDOM.style[transform] = `translate(${x}px, ${y}px) scale(${scale})`;
+    }
+
+    const afterLeave = () => {
+        const cdWrapperDOM = cdWrapperRef.current;
+        if (!cdWrapperDOM) return;
+        cdWrapperDOM.style.transition = '';
+        cdWrapperDOM.style[transform] = '';
+        normalPlayerRef.current.style.display = "none";
+    }
 
     function _getPosAndScale() {
         const targetWidth = 40;
@@ -61,18 +78,6 @@ function NormalPlayer(props) {
         return { x, y, scale };
     }
 
-    useEffect(() => {
-        console.log('normalPlayerRef.current ---->', normalPlayerRef.current)
-        var observer = new MutationObserver(function() {
-            if (!normalPlayerRef.current) return;
-            console.log(normalPlayerRef.current.classList.toString());
-        });
-        normalPlayerRef.current &&
-        observer.observe(normalPlayerRef.current, {
-            attributes: true
-        });
-    }, [normalPlayerRef.current]);
-
     return (
         <CSSTransition
             classNames="normal"
@@ -81,6 +86,8 @@ function NormalPlayer(props) {
             mountOnEnter
             onEnter={enter}
             onEntered={afterEnter}
+            onExit={leave}
+            onExited={afterLeave}
         >
             <NormalPlayerContainer ref={normalPlayerRef}>
                 <div className="background">
