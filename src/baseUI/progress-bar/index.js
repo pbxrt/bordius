@@ -38,11 +38,53 @@ const ProgressBarWrapper = styled.div`
 `
 
 function ProgressBar(props) {
+    const progressBar = useRef();
+    const progress = useRef();
+    const progressBtn = useRef();
+    const [touch, setTouch] = useState({});
+    const progressBtnWidth = 16;
+
+    const _offset = offsetWidth => {
+        progress.current.style.width = `${offsetWidth}px`;
+        progressBtn.current.style.transform = `translate(${offsetWidth}px, 0)`;
+    }
+
+    const progressTouchStart = e => {
+        const startTouch = {};
+        startTouch.initiated = true;
+        startTouch.startX = e.touches[0].pageX;
+        startTouch.left = progress.current.clientWidth;
+        setTouch(startTouch);
+    }
+
+    const progressTouchMove = e => {
+        if (!touch.initiated) return;
+
+        const deltaX = e.touches[0].pageX - touch.startX;
+        const barWidth = progressBar.current.clientWidth - progressBtnWidth;
+        const offsetWidth = Math.min(
+            Math.max(0, touch.left + deltaX),
+            barWidth
+        );
+        _offset(offsetWidth);
+    }
+
+    const progressTouchEnd = e => {
+        const endTouch = {...touch, initiated: false}
+        setTouch(endTouch);
+    }
+
     return (
         <ProgressBarWrapper>
-            <div className="bar-inner">
-                <div className="progress"></div>
-                <div className="progress-btn-wrapper">
+            <div className="bar-inner" ref={progressBar}>
+                <div className="progress" ref={progress}></div>
+                <div
+                    className="progress-btn-wrapper"
+                    ref={progressBtn}
+                    onTouchStart={progressTouchStart}
+                    onTouchMove={progressTouchMove}
+                    onTouchEnd={progressTouchEnd}
+                >
                     <div className="progress-btn"></div>
                 </div>
             </div>
