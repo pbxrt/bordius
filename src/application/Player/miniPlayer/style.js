@@ -59,20 +59,23 @@ export const MiniPlayerContainer = styled.div`
         }
     }
     > .control {
-        flex: 0 0 30px;
-        padding: 0 10px;
+        position: relative;
+        margin: 0 10px;
+        width: 30px;
+        height: 30px;
         .iconfont,
         .icon-playlist {
             font-size: 30px;
             color: ${style["theme-color"]};
         }
         .icon-mini {
-            font-size: 16px;
             position: absolute;
-            left: 8px;
-            top: 8px;
+            font-size: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             &.icon-play {
-                left: 9px
+
             }
         }
     }
