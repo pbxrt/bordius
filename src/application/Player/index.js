@@ -13,6 +13,8 @@ import {
 } from './store';
 
 function Player(props) {
+    const {fullScreen} = props;
+    const {toggleFullScreenDispatch} = props;
     const song = {
         ar: [{name: "薛之谦"}],
         name: '测试',
@@ -22,8 +24,16 @@ function Player(props) {
     };
     return (
         <div>
-            <MiniPlayer song={song} />
-            <NormalPlayer song={song} />
+            <MiniPlayer
+                song={song}
+                fullScreen={fullScreen}
+                toggleFullScreen={toggleFullScreenDispatch}
+            />
+            <NormalPlayer
+                song={song}
+                fullScreen={fullScreen}
+                toggleFullScreen={toggleFullScreenDispatch}  
+            />
         </div>
     );
 }

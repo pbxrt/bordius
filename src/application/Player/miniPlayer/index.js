@@ -1,24 +1,43 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {getName} from '../../../api/utils';
 import {MiniPlayerContainer} from './style';
+import {CSSTransition} from 'react-transition-group';
 
 function MiniPlayer(props) {
-    const {song} = props;
+    const {song, fullScreen, toggleFullScreen} = props;
+    const miniPlayerRef = useRef();
+
+    function setFullScreen(bool) {
+
+    }
+
     return (
-        <MiniPlayerContainer>
-            <div className="poster" style={{background: `url(${song.al.picUrl}) no-repeat center center`}}>
-            </div>
-            <div className="text">
-                <h2 className="name">{song.name}</h2>
-                <p className="desc">{getName(song.ar)}</p>
-            </div>
-            <div className="control">
-                <i className="iconfont">&#xe650;</i>
-            </div>
-            <div className="control">
-                <i className="iconfont">&#xe640;</i>
-            </div>
-        </MiniPlayerContainer>
+        <CSSTransition
+            in={!fullScreen}
+            timeout={400}
+            classNames="mini"
+            onEnter={() => {
+                miniPlayerRef.current.style.display = 'flex';
+            }}
+            onExited={() => {
+                miniPlayerRef.current.style.display = 'none';
+            }}
+        >
+            <MiniPlayerContainer ref={miniPlayerRef} onClick={() => setFullScreen(true)}>
+                <div className="poster" style={{background: `url(${song.al.picUrl}) no-repeat center center`}}>
+                </div>
+                <div className="text">
+                    <h2 className="name">{song.name}</h2>
+                    <p className="desc">{getName(song.ar)}</p>
+                </div>
+                <div className="control">
+                    <i className="iconfont">&#xe650;</i>
+                </div>
+                <div className="control">
+                    <i className="iconfont">&#xe640;</i>
+                </div>
+            </MiniPlayerContainer>
+        </CSSTransition>
     );
 }
 
