@@ -95,3 +95,7 @@ export function prefixStyle(style) {
     }
     return vendor + style.charAt(0).toUpperCase() + style.substr(1);
 }
+
+export const getSongUrl = id => {
+    return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+};
