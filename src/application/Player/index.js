@@ -26,6 +26,12 @@ function Player(props) {
 
     const audioRef = useRef();
 
+    const [preSong, setPreSong] = useState({});
+
+    useEffect(() => {
+        changeCurrentIndexDispatch(0);
+    }, []);
+
     const playList = [
     {
       ftype: 0,
@@ -103,19 +109,26 @@ function Player(props) {
 ];
 
     useEffect(() => {
-        if (!currentSong) return;
-        changeCurrentIndexDispatch(0);
-        let current = playList[0];
+        if (
+            !playList.length ||
+            currentIndex === -1 ||
+            !playList[currentIndex] ||
+            playList[currentIndex].id === preSong.id
+        )
+            return;
+
+        let current = playList[currentIndex];
         changeCurrentDispatch(current);
+        setPreSong(current);
         audioRef.current.src = getSongUrl(current.id);
         setTimeout(() => {
             audioRef.current.play();
         })
-        console.log(audioRef.current.src);
+
         togglePlayingDispatch(true);
         setCurrentTime(0);
         setDuration((current.dt / 1000) | 0);
-    }, []);
+    }, [playList, currentIndex]);
 
     useEffect(() => {
         audioRef.current[playing ? 'play' : 'pause']();
@@ -135,6 +148,36 @@ function Player(props) {
         if (!playing) {
             togglePlayingDispatch(true);
         }   
+    }
+
+    const handleLoop = () => {
+        console.log('loop');
+        audioRef.current.currentTime = 0;
+        togglePlayingDispatch(true);
+        audioRef.current.play();
+    }
+
+    const handlePrev = () => {
+        console.log('prev');
+        // 总共只有一首歌
+        if (playList.length === 1) {
+            return handleLoop();
+        }
+        let index = currentIndex - 1;
+        if (index < 0) index = playList.length - 1;
+        if (!playing) togglePlayingDispatch(true);
+        changeCurrentIndexDispatch(index);
+    }
+
+    const handleNext = () => {
+        console.log('next');
+        if (playList.length === 1) {
+            return handleLoop();
+        }
+        let index = currentIndex + 1;
+        if (index === playList.length) index = 0;
+        if (!playing) togglePlayingDispatch(true);
+        changeCurrentIndexDispatch(index);
     }
 
     return (
@@ -160,6 +203,8 @@ function Player(props) {
                             currentTime={currentTime}
                             percent={percent}
                             onProgressChange={onProgressChange}
+                            handlePrev={handlePrev}
+                            handleNext={handleNext}
                         />
                     </>
                 )

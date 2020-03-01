@@ -17,7 +17,7 @@ const transform = prefixStyle('transform');
 
 function NormalPlayer(props) {
     const {song, fullScreen, playing, currentTime, duration, percent} = props;
-    const {toggleFullScreen, clickPlaying, onProgressChange} = props;
+    const {toggleFullScreen, clickPlaying, onProgressChange, handlePrev, handleNext} = props;
 
     const normalPlayerRef = useRef();
     const cdWrapperRef = useRef();
@@ -86,7 +86,6 @@ function NormalPlayer(props) {
         onProgressChange(percent);
     }
 
-
     return (
         <CSSTransition
             classNames="normal"
@@ -139,7 +138,7 @@ function NormalPlayer(props) {
                             <i className="iconfont">&#xe625;</i>
                         </div>
                         <div className="icon i-left">
-                            <i className="iconfont">&#xe6e1;</i>
+                            <i className="iconfont" onClick={handlePrev}>&#xe6e1;</i>
                         </div>
                         <div className="icon i-center">
                             {
@@ -151,7 +150,7 @@ function NormalPlayer(props) {
                             }
                         </div>
                         <div className="icon i-right">
-                            <i className="iconfont">&#xe718;</i>
+                            <i className="iconfont" onClick={handleNext}>&#xe718;</i>
                         </div>
                         <div className="icon i-right">
                             <i className="iconfont">&#xe640;</i>
