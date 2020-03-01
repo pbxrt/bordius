@@ -80,6 +80,11 @@ function NormalPlayer(props) {
         return { x, y, scale };
     }
 
+    function onPercentChange(percent) {
+        percent = Math.min(1, percent);
+        console.log(percent);
+    }
+
     return (
         <CSSTransition
             classNames="normal"
@@ -123,7 +128,7 @@ function NormalPlayer(props) {
                     <ProgressWrapper>
                         <span className="time time-l">0:00</span>
                         <div className="progress-bar-wrapper">
-                            <ProgressBar percent={0.2}></ProgressBar>
+                            <ProgressBar percent={0.2} percentChange={onPercentChange}></ProgressBar>
                         </div>
                         <div className="time time-r">4:17</div>
                     </ProgressWrapper>

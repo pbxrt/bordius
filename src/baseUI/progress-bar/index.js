@@ -38,6 +38,7 @@ const ProgressBarWrapper = styled.div`
 `
 
 function ProgressBar(props) {
+    const {percentChange} = props;
     const progressBar = useRef();
     const progress = useRef();
     const progressBtn = useRef();
@@ -72,12 +73,20 @@ function ProgressBar(props) {
     const progressTouchEnd = e => {
         const endTouch = {...touch, initiated: false}
         setTouch(endTouch);
+        _changePercent();
     }
 
     const progressClick = e => {
         const rect = progressBar.current.getBoundingClientRect();
         const offsetWidth = e.pageX - rect.left;
         _offset(offsetWidth);
+        _changePercent();
+    }
+
+    const _changePercent = () => {
+        const barWidth = progressBar.current.clientWidth - progressBtnWidth;
+        const currentPercent = progress.current.clientWidth / barWidth;
+        percentChange(currentPercent);
     }
 
     return (
