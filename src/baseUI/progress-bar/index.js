@@ -74,9 +74,15 @@ function ProgressBar(props) {
         setTouch(endTouch);
     }
 
+    const progressClick = e => {
+        const rect = progressBar.current.getBoundingClientRect();
+        const offsetWidth = e.pageX - rect.left;
+        _offset(offsetWidth);
+    }
+
     return (
         <ProgressBarWrapper>
-            <div className="bar-inner" ref={progressBar}>
+            <div className="bar-inner" ref={progressBar} onClick={progressClick}>
                 <div className="progress" ref={progress}></div>
                 <div
                     className="progress-btn-wrapper"
