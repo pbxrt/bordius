@@ -5,14 +5,23 @@ import {CSSTransition} from 'react-transition-group';
 import ProgressCircle from '../../../baseUI/progress-circle';
 
 function MiniPlayer(props) {
-    const {song, fullScreen, toggleFullScreen} = props;
+    const {song, fullScreen, playing, percent} = props;
+    const {toggleFullScreen, clickPlaying} = props;
     const miniPlayerRef = useRef();
 
     function setFullScreen(bool) {
         toggleFullScreen(true);
     }
 
-    let percent = 0.2;
+    const pause = (e) => {
+        e.stopPropagation();
+        clickPlaying(false);
+    }
+
+    const play = (e) => {
+        e.stopPropagation();
+        clickPlaying(true);
+    }
 
     return (
         <CSSTransition
@@ -27,7 +36,7 @@ function MiniPlayer(props) {
             }}
         >
             <MiniPlayerContainer className="mini-player" ref={miniPlayerRef} onClick={() => setFullScreen(true)}>
-                <div className="poster" style={{background: `url(${song.al.picUrl}) no-repeat center center`}}>
+                <div className={`poster playing ${playing ? '' : 'paused'}`} style={{background: `url(${song.al.picUrl}) no-repeat center center`}}>
                 </div>
                 <div className="text">
                     <h2 className="name">{song.name}</h2>
@@ -36,7 +45,13 @@ function MiniPlayer(props) {
                 <div className="control">
                     <ProgressCircle radius={32} percent={percent}>
                     </ProgressCircle>
-                    <i className="icon-mini iconfont">&#xe650;</i>
+                    {
+                        playing ? (
+                            <i className="icon-mini iconfont" onClick={pause}>&#xe650;</i>
+                        ) : (
+                            <i className="icon-mini iconfont icon-play" onClick={play}>&#xe61e;</i>
+                        )
+                    }
                 </div>
                 <div className="control">
                     <i className="iconfont">&#xe640;</i>
@@ -44,6 +59,11 @@ function MiniPlayer(props) {
             </MiniPlayerContainer>
         </CSSTransition>
     );
+}
+
+MiniPlayer.defaultProps = {
+    percent: 0,
+    playing: false
 }
 
 export default MiniPlayer;

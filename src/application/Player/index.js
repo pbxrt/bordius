@@ -13,8 +13,8 @@ import {
 } from './store';
 
 function Player(props) {
-    const {fullScreen} = props;
-    const {toggleFullScreenDispatch} = props;
+    const {fullScreen, playing} = props;
+    const {toggleFullScreenDispatch, togglePlayingDispatch} = props;
     const song = {
         ar: [{name: "薛之谦"}],
         name: '测试',
@@ -28,6 +28,8 @@ function Player(props) {
                 song={song}
                 fullScreen={fullScreen}
                 toggleFullScreen={toggleFullScreenDispatch}
+                playing={playing}
+                clickPlaying={togglePlayingDispatch}
             />
             <NormalPlayer
                 song={song}

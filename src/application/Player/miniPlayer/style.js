@@ -37,8 +37,11 @@ export const MiniPlayerContainer = styled.div`
         width: 40px;
         height: 40px;
         border-radius: 20px;
-        &.play {
+        &.playing {
             animation: ${loop} 10s linear infinite;
+            &.paused {
+                animation-play-state: paused;
+            }
         }
     }
     > .text {
@@ -75,7 +78,7 @@ export const MiniPlayerContainer = styled.div`
             left: 50%;
             transform: translate(-50%, -50%);
             &.icon-play {
-
+                transform: translate(-40%, -50%);
             }
         }
     }
