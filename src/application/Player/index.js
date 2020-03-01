@@ -23,7 +23,7 @@ function Player(props) {
         }
     };
     return (
-        <div>
+        <div className="players-container">
             <MiniPlayer
                 song={song}
                 fullScreen={fullScreen}

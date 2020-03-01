@@ -19,16 +19,18 @@ export const MiniPlayerContainer = styled.div`
     display: flex;
     align-items: center;
     background: #fff;
+    z-index: 300;
+    transition: all .4s linear;
     &.mini-enter {
-        transform: translate3d (0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
     }
-    &.mini-enter-active {
-        transform: translate3d (0, 0, 0);
-        transition: all 0.4s;
+    &.mini-enter-active,
+    &.mini-enter-done {
+        transform: translate3d(0, 0, 0);
     }
-    &.mini-exit-active {
-        transform: translate3d (0, 100%, 0);
-        transition: all .4s
+    &.mini-exit-active,
+    &.mini-exit-done {
+        transform: translate3d(0, 100%, 0);
     }
     > .poster {
         margin: 0 10px 0 20px;

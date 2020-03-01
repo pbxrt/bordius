@@ -18,6 +18,31 @@ export const NormalPlayerContainer = styled.div`
     right: 0;
     background: ${style['background-color']};
     z-index: 200;
+    &.normal-enter,
+    &.normal-exit-done {
+      .top {
+        transform: translate(0, -100px);
+        transition: transform 0.4s linear;
+      }
+      .bottom {
+        transform: translate(0, 100px);
+        transition: transform 0.3s linear;
+      }
+    }
+
+    &.normal-enter-active,
+    &.normal-exit-active {
+      .top,
+      .bottom {
+        transform: translate(0, 0);
+        transition: all 0.4s cubic-bezier(0.86, 0.18, 0.82, 1.32);
+      }
+      opacity: 1;
+      transition: all 0.4s;
+    }
+    &.normal-exit-active {
+      opacity: 0;
+    }
     > .background {
         position: absolute;
         left: 0;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import {getName} from '../../../api/utils';
 import {
     NormalPlayerContainer,
@@ -9,17 +9,80 @@ import {
     CDWrapper
 } from './style';
 import {CSSTransition} from 'react-transition-group';
+import animations from 'create-keyframe-animation';
 
 function NormalPlayer(props) {
-    const {song, fullScreen, toggleFullScreenDispatch} = props;
+    const {song, fullScreen, toggleFullScreen} = props;
+
+    const normalPlayerRef = useRef();
+    const cdWrapperRef = useRef();
+
+    const enter = () => {
+        normalPlayerRef.current.style.display = 'block';
+        const {x, y, scale} = _getPosAndScale();
+        let animation = {
+            0: {
+                transform: `translate(${x}px, ${y}px) scale(${scale})`
+            },
+            60: {
+                transform: `translate(0, 0) scale(1.1)`
+            },
+            100: {
+              transform: 'translate(0, 0) scale(1)'
+            }
+        };
+        animations.registerAnimation({
+            name: 'move',
+            animation,
+            presets: {
+                duration: 400,
+                easing: 'linear'
+            }
+        });
+        animations.runAnimation(cdWrapperRef.current, 'move');
+    }
+
+    const afterEnter = () => {
+        animations.unregisterAnimation('move');
+        cdWrapperRef.current.style.animation = '';
+    }
+
+
+    function _getPosAndScale() {
+        const targetWidth = 40;
+        const paddingLeft = 40;
+        const paddingBottom = 30;
+        const paddingTop = 80;
+        const width = window.innerWidth * 0.8;
+        const scale = targetWidth / width;
+
+        const x = -(window.innerWidth / 2 - paddingLeft);
+        const y = window.innerHeight - paddingTop - width / 2 - paddingBottom;
+        return { x, y, scale };
+    }
+
+    useEffect(() => {
+        console.log('normalPlayerRef.current ---->', normalPlayerRef.current)
+        var observer = new MutationObserver(function() {
+            if (!normalPlayerRef.current) return;
+            console.log(normalPlayerRef.current.classList.toString());
+        });
+        normalPlayerRef.current &&
+        observer.observe(normalPlayerRef.current, {
+            attributes: true
+        });
+    }, [normalPlayerRef.current]);
+
     return (
         <CSSTransition
             classNames="normal"
             in={fullScreen}
             timeout={400}
             mountOnEnter
+            onEnter={enter}
+            onEntered={afterEnter}
         >
-            <NormalPlayerContainer>
+            <NormalPlayerContainer ref={normalPlayerRef}>
                 <div className="background">
                     <img
                         src={song.al.picUrl + '?param=300x300'}
@@ -30,13 +93,13 @@ function NormalPlayer(props) {
                 </div>
                 <div className="background layer"></div>
                 <Top className="top">
-                    <div className="back">
+                    <div className="back" onClick={() => toggleFullScreen(false)}>
                         <i className="iconfont icon-back">&#xe662;</i>
                     </div>
                     <h1 className="title">{song.name}</h1>
                     <h1 className="subtitle">{getName(song.ar)}</h1>
                 </Top>
-                <Middle>
+                <Middle ref={cdWrapperRef}>
                     <CDWrapper>
                         <div className="cd">
                             <img

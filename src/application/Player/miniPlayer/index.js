@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {getName} from '../../../api/utils';
 import {MiniPlayerContainer} from './style';
 import {CSSTransition} from 'react-transition-group';
@@ -8,7 +8,7 @@ function MiniPlayer(props) {
     const miniPlayerRef = useRef();
 
     function setFullScreen(bool) {
-
+        toggleFullScreen(true);
     }
 
     return (
@@ -23,7 +23,7 @@ function MiniPlayer(props) {
                 miniPlayerRef.current.style.display = 'none';
             }}
         >
-            <MiniPlayerContainer ref={miniPlayerRef} onClick={() => setFullScreen(true)}>
+            <MiniPlayerContainer className="mini-player" ref={miniPlayerRef} onClick={() => setFullScreen(true)}>
                 <div className="poster" style={{background: `url(${song.al.picUrl}) no-repeat center center`}}>
                 </div>
                 <div className="text">
