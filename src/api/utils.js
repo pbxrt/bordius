@@ -99,3 +99,10 @@ export function prefixStyle(style) {
 export const getSongUrl = id => {
     return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
 };
+
+export const getFormatTime = ms => {
+    let minute = parseInt(ms / 60);
+    let seconds = parseInt(ms % 60);
+    seconds = seconds > 10 ? seconds : '0' + seconds;
+    return minute + ':' + seconds;
+}

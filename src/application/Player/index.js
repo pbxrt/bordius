@@ -24,9 +24,6 @@ function Player(props) {
     // 歌曲总时长
     const [duration, setDuration] = useState(0);
 
-    // 歌曲播放进度
-    let percent = (currentTime / duration) || 0;
-
     const audioRef = useRef();
 
     const playList = [
@@ -120,6 +117,26 @@ function Player(props) {
         setDuration((current.dt / 1000) | 0);
     }, []);
 
+    useEffect(() => {
+        audioRef.current[playing ? 'play' : 'pause']();
+    }, [playing]);
+
+    const updateTime = e => {
+        setCurrentTime(e.target.currentTime);
+    };
+
+    // 歌曲播放进度
+    let percent = (currentTime / duration) || 0;
+
+    function onProgressChange(currPercent) {
+        const newTime = currPercent * duration;
+        setCurrentTime(newTime);
+        audioRef.current.currentTime = newTime;
+        if (!playing) {
+            togglePlayingDispatch(true);
+        }   
+    }
+
     return (
         <div className="players-container">
             {
@@ -131,16 +148,26 @@ function Player(props) {
                             toggleFullScreen={toggleFullScreenDispatch}
                             playing={playing}
                             clickPlaying={togglePlayingDispatch}
+                            percent={percent}
                         />
                         <NormalPlayer
                             song={currentSong}
                             fullScreen={fullScreen}
-                            toggleFullScreen={toggleFullScreenDispatch}  
+                            toggleFullScreen={toggleFullScreenDispatch}
+                            playing={playing}
+                            clickPlaying={togglePlayingDispatch}
+                            duration={duration}
+                            currentTime={currentTime}
+                            percent={percent}
+                            onProgressChange={onProgressChange}
                         />
                     </>
                 )
             }
-            <audio ref={audioRef}></audio>
+            <audio
+                ref={audioRef}
+                onTimeUpdate={updateTime}
+            />
         </div>
     );
 }
