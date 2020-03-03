@@ -8,8 +8,9 @@ export const Container = styled.div`
   top: 94px;
   bottom: 0;
   width: 100%;
-  .official,.global {
-    margin: 10px 5px;
+  .official,
+  .global {
+    margin: 0 5px 10px;
     padding-top: 15px;
     font-weight: 700;
     font-size: ${style["font-size-m"]};
