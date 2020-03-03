@@ -13,6 +13,7 @@ import {
 import {CSSTransition} from 'react-transition-group';
 import animations from 'create-keyframe-animation';
 import ProgressBar from "../../../baseUI/progress-bar/index";
+import Toast from '../../../baseUI/toast';
 
 const transform = prefixStyle('transform');
 
@@ -171,6 +172,7 @@ function NormalPlayer(props) {
                         </div>
                     </Operators>
                 </Bottom>
+                <Toast mode={mode} />
             </NormalPlayerContainer>
         </CSSTransition>
     );
