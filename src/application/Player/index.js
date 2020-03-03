@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import MiniPlayer from './miniPlayer';
 import NormalPlayer from './normalPlayer';
 import {getSongUrl, isEmptyObject, shuffle, findIndex} from '../../api/utils';
+import {playMode} from '../../api/config';
 import {
     changePlayingState,
     changeShowPlayList,
@@ -83,6 +84,14 @@ function Player(props) {
     const updateTime = e => {
         setCurrentTime(e.target.currentTime);
     };
+
+    const handleEnd = () => {
+        if (mode === playMode.loop) {
+            handleLoop();
+        } else {
+            handleNext();
+        }
+    }
 
     // 歌曲播放进度
     let percent = (currentTime / duration) || 0;
@@ -182,6 +191,7 @@ function Player(props) {
             <audio
                 ref={audioRef}
                 onTimeUpdate={updateTime}
+                onEnded={handleEnd}
             />
         </div>
     );
