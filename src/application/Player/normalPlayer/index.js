@@ -1,5 +1,6 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {getName, prefixStyle, getFormatTime} from '../../../api/utils';
+import {playMode} from '../../../api/config';
 import {
     NormalPlayerContainer,
     Top,
@@ -16,7 +17,7 @@ import ProgressBar from "../../../baseUI/progress-bar/index";
 const transform = prefixStyle('transform');
 
 function NormalPlayer(props) {
-    const {song, fullScreen, playing, currentTime, duration, percent} = props;
+    const {song, fullScreen, playing, currentTime, duration, percent, mode, changeMode} = props;
     const {toggleFullScreen, clickPlaying, onProgressChange, handlePrev, handleNext} = props;
 
     const normalPlayerRef = useRef();
@@ -86,6 +87,16 @@ function NormalPlayer(props) {
         onProgressChange(percent);
     }
 
+    const getPlayMode = () => {
+        if (mode === playMode.sequence) {
+            return '&#xe625;'
+        }
+        else if (mode === playMode.loop) {
+            return '&#xe653;'
+        }
+        return '&#xe61b;'
+    }
+
     return (
         <CSSTransition
             classNames="normal"
@@ -134,8 +145,11 @@ function NormalPlayer(props) {
                         <div className="time time-r">{getFormatTime(duration)}</div>
                     </ProgressWrapper>
                     <Operators>
-                        <div className="icon i-left" >
-                            <i className="iconfont">&#xe625;</i>
+                        <div className="icon i-left" onClick={changeMode}>
+                            <i
+                                className="iconfont"
+                                dangerouslySetInnerHTML={{__html: getPlayMode()}}
+                            ></i>
                         </div>
                         <div className="icon i-left">
                             <i className="iconfont" onClick={handlePrev}>&#xe6e1;</i>

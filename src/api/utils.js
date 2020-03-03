@@ -103,6 +103,27 @@ export const getSongUrl = id => {
 export const getFormatTime = ms => {
     let minute = parseInt(ms / 60);
     let seconds = parseInt(ms % 60);
-    seconds = seconds > 10 ? seconds : '0' + seconds;
+    seconds = seconds >= 10 ? seconds : '0' + seconds;
     return minute + ':' + seconds;
+}
+
+export function getRandomInt(min, max) {
+    return Math.floor(
+        Math.random() * (max - min + 1) + min
+    );
+}
+
+export function shuffle(arr) {
+    let new_arr = [...arr];
+    for (let i=0; i<new_arr.length; i++) {
+        let j = getRandomInt(0, i);
+        let t = new_arr[i];
+        new_arr[i] = new_arr[i];
+        new_arr[j] = t;
+    }
+    return new_arr;
+}
+
+export const findIndex = (song, list) => {
+    return list.findIndex(item => item.id === song.id);
 }
