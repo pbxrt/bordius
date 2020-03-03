@@ -63,6 +63,7 @@ function Player(props) {
         changeCurrentDispatch(current);
         setPreSong(current);
         audioRef.current.src = getSongUrl(current.id);
+        audioRef.current.play();
         togglePlayingDispatch(true);
         setCurrentTime(0);
         setDuration((current.dt / 1000) | 0);
@@ -205,7 +206,8 @@ const mapStateToProps = state =>({
     mode: state.getIn(["player", "mode"]),
     currentIndex: state.getIn(["player", "currentIndex"]),
     playList: state.getIn(["player", "playList"]),
-    sequencePlayList: state.getIn(["player", "sequencePlayList"])
+    sequencePlayList: state.getIn(["player", "sequencePlayList"]),
+    album: state.getIn(['album', 'currentAlbum'])
 });
 
 const mapDispatchToProps = dispatch =>({
