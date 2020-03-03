@@ -118,7 +118,7 @@ export function shuffle(arr) {
     for (let i=0; i<new_arr.length; i++) {
         let j = getRandomInt(0, i);
         let t = new_arr[i];
-        new_arr[i] = new_arr[i];
+        new_arr[i] = new_arr[j];
         new_arr[j] = t;
     }
     return new_arr;
