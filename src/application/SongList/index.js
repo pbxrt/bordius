@@ -16,10 +16,47 @@ const SongsList = React.forwardRef((props, refs) => {
         changeCurrentIndexDispatch,
         changeSequencePlayListDispatch
     } = props;
+
     const selectItem = (e, index) => {
         changePlayListDispatch(songs);
         changeSequencePlayListDispatch(songs);
         changeCurrentIndexDispatch(index);
+        createMusicNote(e.pageX, e.pageY);
+    }
+
+    const createMusicNote = (x, y) => {
+        const container = document.createElement('div');
+        Object.assign(container.style, {
+            position: 'fixed',
+            top: y + 'px',
+            left: x + 'px',
+            transition: 'left 0.4s linear',
+            zIndex: 100000
+        });
+        const note = document.createElement('div');
+        Object.assign(note.style, {
+            position: 'absolute',
+            width: '20px',
+            height: '20px',
+            borderRadius: '10px',
+            background: 'red',
+            opacity: 1,
+            left: '-10px',
+            top: '-10px',
+            transition: 'top 0.4s cubic-bezier(.46,-0.52,.93,.63)'
+        });
+        container.appendChild(note);
+        document.body.appendChild(container);
+        setTimeout(() => {
+            container.style.left = '30px';
+            Object.assign(note.style, {
+                top: '200px',
+                opacity: '0.2'
+            })
+            // setTimeout(() => {
+            //     document.body.removeChild(container);
+            // }, 400);
+        }, 20);
     }
 
     const songList = list => {
