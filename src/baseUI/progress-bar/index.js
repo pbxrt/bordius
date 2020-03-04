@@ -96,7 +96,7 @@ function ProgressBar(props) {
             progress.current.style.width = `${offsetWidth}px`;
             progressBtn.current.style[prefixStyle('transform')] = `translate(${offsetWidth}px, 0)`;
         }
-    }, [percent]);
+    }, [percent, touch.initiated]);
 
     return (
         <ProgressBarWrapper>

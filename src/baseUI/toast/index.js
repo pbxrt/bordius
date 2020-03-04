@@ -1,7 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
-import style from '../../assets/global-style';
-import PropTypes from 'prop-types';
 import {playMode} from '../../api/config';
 
 const ToastContainer = styled.div`

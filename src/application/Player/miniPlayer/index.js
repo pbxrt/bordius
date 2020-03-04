@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import {getName} from '../../../api/utils';
 import {MiniPlayerContainer} from './style';
 import {CSSTransition} from 'react-transition-group';

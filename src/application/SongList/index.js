@@ -21,42 +21,49 @@ const SongsList = React.forwardRef((props, refs) => {
         changePlayListDispatch(songs);
         changeSequencePlayListDispatch(songs);
         changeCurrentIndexDispatch(index);
-        createMusicNote(e.pageX, e.pageY);
+        createMusicNote(e, e.pageX, e.pageY);
     }
 
-    const createMusicNote = (x, y) => {
+    const createMusicNote = (event) => {
+        const {pageX: x, pageY: y, target} = event;
+        const rect = target.getBoundingClientRect();
+        const height = window.innerHeight;
+        const followHeight = height - rect.bottom - 30;
         const container = document.createElement('div');
         Object.assign(container.style, {
             position: 'fixed',
             top: y + 'px',
             left: x + 'px',
-            transition: 'left 0.4s linear',
+            transition: 'left 0.8s linear',
             zIndex: 100000
         });
         const note = document.createElement('div');
+        note.classList.add('iconfont');
+        note.innerHTML = '&#xe642;';
         Object.assign(note.style, {
             position: 'absolute',
             width: '20px',
             height: '20px',
             borderRadius: '10px',
-            background: 'red',
+            fontSize: '16px',
             opacity: 1,
             left: '-10px',
             top: '-10px',
-            transition: 'top 0.4s cubic-bezier(.46,-0.52,.93,.63)'
+            color: 'red',
+            transition: 'top 0.8s cubic-bezier(.41,-0.17,.83,.67)'
         });
         container.appendChild(note);
         document.body.appendChild(container);
         setTimeout(() => {
             container.style.left = '30px';
             Object.assign(note.style, {
-                top: '200px',
-                opacity: '0.2'
+                top: `${followHeight}px`,
+                opacity: '0.1'
             })
-            // setTimeout(() => {
-            //     document.body.removeChild(container);
-            // }, 400);
-        }, 20);
+            setTimeout(() => {
+                document.body.removeChild(container);
+            }, 1000);
+        }, 300);
     }
 
     const songList = list => {

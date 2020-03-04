@@ -48,6 +48,7 @@ function Player(props) {
 
     useEffect(() => {
         changeCurrentIndexDispatch(0);
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
