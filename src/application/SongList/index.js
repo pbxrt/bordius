@@ -21,12 +21,14 @@ const SongsList = React.forwardRef((props, refs) => {
         changePlayListDispatch(songs);
         changeSequencePlayListDispatch(songs);
         changeCurrentIndexDispatch(index);
-        createMusicNote(e, e.pageX, e.pageY);
+        const rect = e.target.getBoundingClientRect();
+        const {pageX: x, pageY: y} = e;
+        setTimeout(() => {
+            createMusicNote(rect, x, y);
+        }, 20);
     }
 
-    const createMusicNote = (event) => {
-        const {pageX: x, pageY: y, target} = event;
-        const rect = target.getBoundingClientRect();
+    const createMusicNote = (rect, x, y) => {
         const height = window.innerHeight;
         const followHeight = height - rect.bottom - 30;
         const container = document.createElement('div');
@@ -34,7 +36,7 @@ const SongsList = React.forwardRef((props, refs) => {
             position: 'fixed',
             top: y + 'px',
             left: x + 'px',
-            transition: 'left 0.8s linear',
+            transition: 'left 1s linear',
             zIndex: 100000
         });
         const note = document.createElement('div');
@@ -50,7 +52,7 @@ const SongsList = React.forwardRef((props, refs) => {
             left: '-10px',
             top: '-10px',
             color: 'red',
-            transition: 'top 0.8s cubic-bezier(.41,-0.17,.83,.67)'
+            transition: 'top 1s cubic-bezier(.41,-0.17,.83,.67)'
         });
         container.appendChild(note);
         document.body.appendChild(container);
@@ -58,11 +60,11 @@ const SongsList = React.forwardRef((props, refs) => {
             container.style.left = '30px';
             Object.assign(note.style, {
                 top: `${followHeight}px`,
-                opacity: '0.1'
+                opacity: '0.4'
             })
             setTimeout(() => {
                 document.body.removeChild(container);
-            }, 1000);
+            }, 1100);
         }, 300);
     }
 

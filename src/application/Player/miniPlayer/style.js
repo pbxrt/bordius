@@ -45,7 +45,7 @@ export const MiniPlayerContainer = styled.div`
         }
     }
     > .text {
-        flex: 1;
+        width: 54.6vw;
         height: 40px;
         display: flex;
         flex-direction: column;
