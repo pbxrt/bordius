@@ -12,6 +12,7 @@ import {
 import { prefixStyle, getName } from '../../../api/utils';
 import { playMode } from '../../../api/config';
 import Scroll from '../../../baseUI/scroll';
+import Confirm from '../../../baseUI/confirm';
 
 function PlayList(props) {
     const {
@@ -34,6 +35,7 @@ function PlayList(props) {
     const sequencePlayList = immutableSequencePlayList.toJS();
     const playListRef = useRef();
     const listWrapperRef = useRef();
+    const [showConfirm, setShowConfirm] = useState(false);
 
     // CSSTransition 永远挂载，但它包裹的Container只有 onEnter时才挂载
     const [isShow, setIsShow] = useState(false);
@@ -100,7 +102,7 @@ function PlayList(props) {
     }
 
     const handleShowClear = () => {
-
+        setShowConfirm(true);
     }
 
     const handleChangeCurrentIndex = index => {
@@ -111,6 +113,13 @@ function PlayList(props) {
     const handleDeleteSong = (e, song) => {
         e.stopPropagation();
         deleteSongDispatch(song);
+    }
+
+    const handleConfirm = (bool) => {
+        if (bool) {
+
+        }
+        setShowConfirm(false);
     }
 
     return (
@@ -158,6 +167,14 @@ function PlayList(props) {
                         </Scroll>
                     </ScrollWrapper>
                 </div>
+                { showConfirm &&
+                    <Confirm
+                        text={"是否删除全部?"}
+                        cancelBtnText={"取消"}
+                        confirmBtnText={"确定"}
+                        handleConfirm={handleConfirm}
+                    />
+                }
             </PlayListWrapper>
         </CSSTransition>
     )
