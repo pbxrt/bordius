@@ -19,7 +19,7 @@ const transform = prefixStyle('transform');
 
 function NormalPlayer(props) {
     const {song, fullScreen, playing, currentTime, duration, percent, mode, changeMode} = props;
-    const {toggleFullScreen, clickPlaying, onProgressChange, handlePrev, handleNext} = props;
+    const {toggleFullScreen, clickPlaying, onProgressChange, handlePrev, handleNext, togglePlayListDispatch} = props;
 
     const normalPlayerRef = useRef();
     const cdWrapperRef = useRef();
@@ -98,6 +98,11 @@ function NormalPlayer(props) {
         return '&#xe61b;'
     }
 
+    const showPlayList = e => {
+        e.stopPropagation();
+        togglePlayListDispatch(true);
+    }
+
     return (
         <CSSTransition
             classNames="normal"
@@ -167,7 +172,7 @@ function NormalPlayer(props) {
                         <div className="icon i-right">
                             <i className="iconfont" onClick={handleNext}>&#xe718;</i>
                         </div>
-                        <div className="icon i-right">
+                        <div className="icon i-right" onClick={showPlayList}>
                             <i className="iconfont">&#xe640;</i>
                         </div>
                     </Operators>

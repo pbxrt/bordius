@@ -2,6 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import MiniPlayer from './miniPlayer';
 import NormalPlayer from './normalPlayer';
+import PlayList from './playList';
 import {getSongUrl, isEmptyObject, shuffle, findIndex} from '../../api/utils';
 import {playMode} from '../../api/config';
 import {
@@ -22,7 +23,8 @@ function Player(props) {
         currentSong: immutableCurrentSong,
         mode,
         sequencePlayList: immutableSequencePlayList,
-        playList: immutablePlayList
+        playList: immutablePlayList,
+        showPlayList
     } = props;
     const {
         toggleFullScreenDispatch,
@@ -30,7 +32,8 @@ function Player(props) {
         changeCurrentIndexDispatch,
         changeCurrentDispatch,
         changePlayListDispatch,
-        changeModeDispatch
+        changeModeDispatch,
+        togglePlayListDispatch
     } = props;
 
     const playList = immutablePlayList.toJS();
@@ -184,6 +187,7 @@ function Player(props) {
                             playing={playing}
                             clickPlaying={togglePlayingDispatch}
                             percent={percent}
+                            togglePlayListDispatch={togglePlayListDispatch}
                         />
                         <NormalPlayer
                             song={currentSong}
@@ -199,7 +203,13 @@ function Player(props) {
                             handleNext={handleNext}
                             mode={mode}
                             changeMode={changeMode}
+                            togglePlayListDispatch={togglePlayListDispatch}
                         />
+                        {
+                            showPlayList && (
+                                <PlayList></PlayList>
+                            )
+                        }
                     </>
                 )
             }
