@@ -15,7 +15,7 @@ import {
 import {renderRoutes} from 'react-router-config';
 
 function Rank(props) {
-    const {rankList, loading, history} = props;
+    const {rankList, loading, history, songsCount} = props;
     const {getRankListDataDispatch} = props;
     const list = rankList.toJS();
     let globalStartIndex = 0;
@@ -71,7 +71,7 @@ function Rank(props) {
 
 
     return (
-        <Container>
+        <Container play={songsCount > 0}>
             <Scroll>
                 <div>
                     <h1 className="official" style={displayStyle}> 官方榜 </h1>
@@ -88,7 +88,8 @@ function Rank(props) {
 
 const mapStateToProps = state => ({
     rankList: state.getIn(['rank', 'rankList']),
-    loading: state.getIn(['rank', 'loading'])
+    loading: state.getIn(['rank', 'loading']),
+    songsCount: state.getIn(['player', 'playList']).size
 });
 
 const mapDispatchToProps = dispatch => ({

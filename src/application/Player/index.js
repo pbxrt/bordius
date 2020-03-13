@@ -46,6 +46,8 @@ function Player(props) {
 
     const [preSong, setPreSong] = useState({});
 
+    const songReady = useRef(true);
+
     useEffect(() => {
         changeCurrentIndexDispatch(0);
         // eslint-disable-next-line
@@ -56,7 +58,8 @@ function Player(props) {
             !playList.length ||
             currentIndex === -1 ||
             !playList[currentIndex] ||
-            playList[currentIndex].id === preSong.id
+            playList[currentIndex].id === preSong.id ||
+            !songReady.current
         )
             return;
 
@@ -64,7 +67,12 @@ function Player(props) {
         changeCurrentDispatch(current);
         setPreSong(current);
         audioRef.current.src = getSongUrl(current.id);
-        audioRef.current.play();
+        songReady.current = false; // 赋值 src 属性后，需要加载歌曲资源，此时还未播放，状态位置为 false
+        setTimeout(() => {
+            audioRef.current.play().then(() => {
+               songReady.current = true;
+            });
+        });
         togglePlayingDispatch(true);
         setCurrentTime(0);
         setDuration((current.dt / 1000) | 0);
@@ -159,6 +167,11 @@ function Player(props) {
         changeModeDispatch(newMode);
     }
 
+    const handleError = () => {
+        songReady.current = true;
+        alert('播放出错');
+    };
+
     return (
         <div className="players-container">
             {
@@ -194,6 +207,7 @@ function Player(props) {
                 ref={audioRef}
                 onTimeUpdate={updateTime}
                 onEnded={handleEnd}
+                onError={handleError}
             />
         </div>
     );
