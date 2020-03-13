@@ -205,11 +205,8 @@ function Player(props) {
                             changeMode={changeMode}
                             togglePlayListDispatch={togglePlayListDispatch}
                         />
-                        {
-                            showPlayList && (
-                                <PlayList></PlayList>
-                            )
-                        }
+                        <PlayList></PlayList>
+                        
                     </>
                 )
             }
