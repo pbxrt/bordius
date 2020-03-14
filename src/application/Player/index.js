@@ -58,7 +58,6 @@ function Player(props) {
     const [currentPlayingLyric, setPlayingLyric] = useState('');
 
     const handleLyric = ({lineNum, txt}) => {
-        console.log(lineNum, txt);
         if (!currentLyric.current) return;
         currentLineNum.current = lineNum;
         setPlayingLyric(txt);

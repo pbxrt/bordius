@@ -112,6 +112,16 @@ export const CDWrapper = styled.div`
   width: 80%;
   box-sizing: border-box;
   height: 80vw;
+  transition: opacity 0.4s linear;
+  &.fade-enter {
+    opacity: 0;
+  }
+  &.fade-enter-done, &.fade-exit {
+    opacity: 1;
+  }
+  &.fade-exit-done {
+    opacity: 0;
+  }
   .cd {
     width: 100%;
     height: 100%;
@@ -210,6 +220,17 @@ export const LyricContainer = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
+    transition: opacity 0.4s linear;
+    &.fade-enter {
+      opacity: 0;
+    }
+    &.fade-enter-done,
+    &.fade-exit {
+      opacity: 1;
+    }
+    &.fade-exit-done {
+      opacity: 0;
+    }
 `;
 
 export const LyricWrapper = styled.div`

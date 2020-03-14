@@ -95,6 +95,7 @@ function NormalPlayer(props) {
         cdWrapperDOM.style.transition = '';
         cdWrapperDOM.style[transform] = '';
         normalPlayerRef.current.style.display = "none";
+        currentState.current = '';
     }
 
     function _getPosAndScale() {
@@ -189,10 +190,7 @@ function NormalPlayer(props) {
                     >
                         <LyricContainer>
                             <Scroll ref={lyricScrollRef}>
-                                <LyricWrapper
-                                    style={{visibility: currentState.current === 'lyric' ? 'visible' : 'hidden'}}
-                                    className="lyric_wrapper"
-                                >
+                                <LyricWrapper className="lyric_wrapper">
                                     {
                                         currentLyric ? (
                                             currentLyric.lines.map((item, index) => {
