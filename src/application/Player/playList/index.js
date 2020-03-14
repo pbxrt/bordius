@@ -12,7 +12,7 @@ import {
     changePlayingState,
     deleteSong,
 } from '../store';
-import { prefixStyle, getName } from '../../../api/utils';
+import { prefixStyle, getName, shuffle, findIndex } from '../../../api/utils';
 import { playMode } from '../../../api/config';
 import Scroll from '../../../baseUI/scroll';
 import Confirm from '../../../baseUI/confirm';
@@ -95,14 +95,27 @@ function PlayList(props) {
         }
         return (
             <div>
-                <i className="iconfont" onClick={(e) => changeMode (e)}  dangerouslySetInnerHTML={{__html: content}}></i>
-                <span className="text" onClick={(e) => changeMode (e)}>{text}</span>
+                <i className="iconfont" onClick={changeMode}  dangerouslySetInnerHTML={{__html: content}}></i>
+                <span className="text" onClick={changeMode}>{text}</span>
             </div>
         )
     }
 
-    const changeMode = e => {
+    const changeMode = () => {
         let newMode = (mode + 1) % 3;
+        if (newMode === 0) {
+            changePlayListDispatch(sequencePlayList);
+            let index = findIndex(currentSong, sequencePlayList);
+            changeCurrentIndexDispatch (index);
+        } else if (newMode === 1) {
+            changePlayListDispatch(sequencePlayList);
+        } else if (newMode === 2) {
+            let newList = shuffle(sequencePlayList);
+            let index = findIndex(currentSong, newList);
+            changePlayListDispatch(newList);
+            changeCurrentIndexDispatch(index);
+        }
+        changeModeDispatch(newMode);
     }
 
     const handleShowClear = () => {
