@@ -40,21 +40,20 @@ export default (state = defaultState, action) => {
 }
 
 const handleDeleteSong = (state, song) => {
-    const playList = JSON.parse(JSON.stringify(state.get('playList').toJS()));
-    const sequencePlayList = JSON.parse(JSON.stringify(state.get('sequencePlayList').toJS()));
     let currentIndex = state.get('currentIndex');
-    const songIndexToDelete = findIndex(song, playList);
-    playList.splice(songIndexToDelete, 1);
-    if (songIndexToDelete < currentIndex) {
-        currentIndex--;
-    }
-    const songIndexToDelete2 = findIndex(song, sequencePlayList);
-    sequencePlayList.splice(songIndexToDelete2, 1);
 
-    return state.merge({
-        playList: fromJS(playList),
-        sequencePlayList: fromJS(sequencePlayList),
-        currentIndex: fromJS(currentIndex)
-    })
+    const playList = state.get('playList');
+    const songIndexToDelete = findIndex(song, playList.toJS());
+    const newPlayList = playList.splice(songIndexToDelete, 1);
+
+    const sequencePlayList = state.get('sequencePlayList');
+    const songIndexToDelete2 = findIndex(song, sequencePlayList.toJS());
+    const newSequencePlayList = sequencePlayList.splice(songIndexToDelete2, 1);
+    
+    if (songIndexToDelete < currentIndex) currentIndex--;
+
+    return state
+        .set('currentIndex', currentIndex)
+        .set('playList', newPlayList)
+        .set('sequencePlayList', newSequencePlayList);
 }
-

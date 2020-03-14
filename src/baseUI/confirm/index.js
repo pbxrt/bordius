@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
 
 const ConfirmContainer = styled.div`
     position: fixed;
@@ -53,9 +53,8 @@ const Row = styled.div`
     }
 `
 
-export default function Confirm(props) {
+export default (props) => {
     const [modalClass, setModalClass] = useState('');
-    
     useEffect(() => {
         setModalClass('active');
     }, []);
@@ -71,4 +70,4 @@ export default function Confirm(props) {
             </div>
         </ConfirmContainer>
     );
-}
+};
