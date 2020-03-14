@@ -7,6 +7,9 @@ import {
     changeCurrentIndex,
     changePlayMode,
     changePlayList,
+    changeCurrentSong,
+    changeSequencePlayList,
+    changePlayingState,
     deleteSong,
 } from '../store';
 import { prefixStyle, getName } from '../../../api/utils';
@@ -29,6 +32,7 @@ function PlayList(props) {
         changePlayListDispatch,
         changeModeDispatch,
         deleteSongDispatch,
+        clearDispatch,
     } = props;
     const currentSong = immutableCurrentSong.toJS();
     const playList = immutablePlayList.toJS();
@@ -116,10 +120,9 @@ function PlayList(props) {
     }
 
     const handleConfirm = (bool) => {
-        if (bool) {
-
-        }
         setShowConfirm(false);
+        if (!bool) return;
+        clearDispatch();
     }
 
     return (
@@ -204,6 +207,14 @@ const mapDispatchToProps = dispatch => ({
     },
     deleteSongDispatch(data) {
         dispatch(deleteSong(data));
+    },
+    clearDispatch() {
+        dispatch(changePlayList([]));
+        dispatch(changeSequencePlayList([]));
+        dispatch(changeCurrentIndex(-1));
+        dispatch(changeShowPlayList(false));
+        dispatch(changeCurrentSong({}));
+        dispatch(changePlayingState(false));
     }
 });
 
