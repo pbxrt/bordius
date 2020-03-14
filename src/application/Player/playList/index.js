@@ -138,6 +138,49 @@ function PlayList(props) {
         clearDispatch();
     }
 
+    const [canTouch, setCanTouch] = useState(true);
+    const listContentRef = useRef();
+    // 记录滚动的Y值
+    const [startY, setStartY] = useState(0);
+
+    // 是否触发了touchstart
+    const [inited, setInited] = useState(false);
+
+    // 下滑的距离
+    const [distance, setDistance] = useState(0);
+
+    const handleScroll = pos => {
+        let newCanTouch = pos.y === 0;
+        if (newCanTouch === canTouch) return;
+        setCanTouch(newCanTouch);
+    }
+
+    const handleTouchStart = e => {
+        if (!canTouch || inited) return;
+        listWrapperRef.current.style.transition = '';
+        setStartY(e.nativeEvent.touches[0].clientY);
+        setInited(true);
+    };
+
+    const handleTouchMove = e => {
+        if (!canTouch || !inited) return;
+        const pos = e.nativeEvent.touches[0];
+        let distance = e.nativeEvent.touches[0].clientY - startY;
+        if (distance < 0) return;
+        setDistance(distance);
+        listWrapperRef.current.style.transform = `translate3d(0, ${distance}px, 0)`;
+    };
+
+    const handleTouchEnd = e => {
+        setInited(false);
+        if (distance >= 150) {
+            togglePlayListDispatch(false);
+        } else {
+            listWrapperRef.current.style.transition = 'all 0.3s';
+            listWrapperRef.current.style.transform = `translate3d(0, 0, 0)`;      
+        }
+    };
+
     return (
         <CSSTransition
             in={showPlayList}
@@ -153,7 +196,13 @@ function PlayList(props) {
                 ref={playListRef}
                 style={{display: isShow ? 'block' : 'none'}}
             >
-                <div className="list_wrapper" ref={listWrapperRef}>
+                <div
+                    className="list_wrapper"
+                    ref={listWrapperRef}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                >
                     <ListHeader>
                         <h1 className="title">
                             {getPlayMode()}
@@ -161,7 +210,11 @@ function PlayList(props) {
                         </h1>
                     </ListHeader>
                     <ScrollWrapper>
-                        <Scroll>
+                        <Scroll
+                            ref={listContentRef}
+                            onScroll={handleScroll}
+                            bounceTop={false}
+                        >
                             <ListContent>
                                 {
                                     playList.map ((item, index) => {
