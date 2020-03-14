@@ -153,6 +153,7 @@ function PlayList(props) {
         let newCanTouch = pos.y === 0;
         if (newCanTouch === canTouch) return;
         setCanTouch(newCanTouch);
+        setDistance(0);
     }
 
     const handleTouchStart = e => {

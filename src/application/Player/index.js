@@ -4,6 +4,8 @@ import MiniPlayer from './miniPlayer';
 import NormalPlayer from './normalPlayer';
 import PlayList from './playList';
 import {getSongUrl, isEmptyObject, shuffle, findIndex} from '../../api/utils';
+import { getLyricRequest } from '../../api/request';
+import Lyric from '../../api/lyric-parser';
 import {playMode} from '../../api/config';
 import {
     changePlayingState,
@@ -50,6 +52,49 @@ function Player(props) {
     const [preSong, setPreSong] = useState({});
 
     const songReady = useRef(true);
+
+    const currentLyric = useRef();
+    const currentLineNum = useRef();
+    const [currentPlayingLyric, setPlayingLyric] = useState('');
+
+    const handleLyric = ({lineNum, txt}) => {
+        console.log(lineNum, txt);
+        if (!currentLyric.current) return;
+        currentLineNum.current = lineNum;
+        setPlayingLyric(txt);
+    }
+
+    useEffect(() => {
+        if (!currentSong.id) return;
+        getLyric(currentSong.id);
+        setCurrentTime(0);
+        setDuration((currentSong.dt / 1000) | 0);
+    }, [currentSong.id]);
+
+    const getLyric = id => {
+        let lyric = '';
+        if (currentLyric.current) {
+            currentLyric.current.stop();
+        }
+
+        getLyricRequest(id).then(data => {
+            lyric = data.lrc.lyric;
+            if (!lyric) {
+                currentLyric.current = null;
+                return;
+            }
+            currentLyric.current = new Lyric(lyric, handleLyric);
+            currentLyric.current.play();
+            currentLineNum.current = 0;
+            currentLyric.current.seek(0);
+        }).catch(err => {
+            console.log(err);
+            songReady.current = true;
+            audioRef.currrent.play();
+        })
+    }
+
+
 
     useEffect(() => {
         changeCurrentIndexDispatch(0);
@@ -115,18 +160,19 @@ function Player(props) {
         audioRef.current.currentTime = newTime;
         if (!playing) {
             togglePlayingDispatch(true);
-        }   
+        }
+        if (currentLyric.current) {
+            currentLyric.current.seek(newTime * 1000);
+        }
     }
 
     const handleLoop = () => {
-        console.log('loop');
         audioRef.current.currentTime = 0;
         togglePlayingDispatch(true);
         audioRef.current.play();
     }
 
     const handlePrev = () => {
-        console.log('prev');
         // 总共只有一首歌
         if (playList.length === 1) {
             return handleLoop();
@@ -138,7 +184,6 @@ function Player(props) {
     }
 
     const handleNext = () => {
-        console.log('next');
         if (playList.length === 1) {
             return handleLoop();
         }
@@ -170,10 +215,17 @@ function Player(props) {
         changeModeDispatch(newMode);
     }
 
-    const handleError = () => {
+    const handleError = (err) => {
         songReady.current = true;
         alert('播放出错');
+        console.log(err);
     };
+
+    const clickPlaying = () => {
+        if (currentLyric.current) {
+            currentLyric.current.togglePlay(currentTime * 1000);
+        }
+    }
 
     return (
         <div className="players-container">
@@ -204,6 +256,9 @@ function Player(props) {
                             mode={mode}
                             changeMode={changeMode}
                             togglePlayListDispatch={togglePlayListDispatch}
+                            currentLyric={currentLyric.current}
+                            currentPlayingLyric={currentPlayingLyric}
+                            currentLineNum={currentLineNum.current}
                         />
                         <PlayList></PlayList>
                         
