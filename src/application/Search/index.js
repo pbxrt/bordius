@@ -76,7 +76,6 @@ function Search(props) {
     };
 
     const renderSingers = () => {
-        return null;
         let singers = suggestList.artists;
         if (!singers || !singers.length) return null;
         return (
@@ -85,7 +84,10 @@ function Search(props) {
                 {
                     singers.map((item, index) => {
                         return (
-                            <ListItem key={item.accountId+""+index}>
+                            <ListItem
+                                key={item.accountId+""+index}
+                                onClick={() => props.history.push (`/singers/${item.id}`)}
+                            >
                                 <div className="img_wrapper">
                                     <LazyLoad placeholder={<img width="100%" height="100%" src={singerPic} alt="singer"/>}>
                                         <img src={item.picUrl} width="100%" height="100%" alt="music"/>
@@ -109,7 +111,9 @@ function Search(props) {
                 {
                     albums.map((item, index) => {
                         return (
-                            <ListItem key={item.accountId+""+index}>
+                            <ListItem key={item.accountId+""+index}
+                                onClick={() => props.history.push (`/album/${item.id}`)}
+                            >
                                 <div className="img_wrapper">
                                     <LazyLoad placeholder={<img width="100%" height="100%" src={musicPic} alt="music"/>}>
                                         <img src={item.coverImgUrl} width="100%" height="100%" alt="music"/>
@@ -123,13 +127,20 @@ function Search(props) {
             </List>
         )
     };
+
+    const selectItem = (e, id) => {
+
+    }
+
     const renderSongs = () => {
         return (
             <SongItem style={{paddingLeft: "20px"}}> 
                 {
                     songsList.map (item => {
                         return (
-                            <li key={item.id}>
+                            <li key={item.id}
+                                onClick={(e) => selectItem (e, item.id)}
+                            >
                                 <div className="info">
                                     <span>{item.name}</span>
                                     <span>
