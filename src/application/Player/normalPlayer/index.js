@@ -36,7 +36,7 @@ function NormalPlayer(props) {
 
     const normalPlayerRef = useRef();
     const cdWrapperRef = useRef();
-    const currentState = useRef('');
+    const currentState = useRef('CD');
     const lyricScrollRef = useRef();
     const lyricLineRefs = useRef([]);
 
@@ -95,7 +95,7 @@ function NormalPlayer(props) {
         cdWrapperDOM.style.transition = '';
         cdWrapperDOM.style[transform] = '';
         normalPlayerRef.current.style.display = "none";
-        currentState.current = '';
+        currentState.current = 'CD';
     }
 
     function _getPosAndScale() {
@@ -135,7 +135,7 @@ function NormalPlayer(props) {
         if (currentState.current !== "lyric") {
             currentState.current = "lyric";
         } else {
-            currentState.current = "";
+            currentState.current = "CD";
         }
     }
 
@@ -171,7 +171,7 @@ function NormalPlayer(props) {
                     <CSSTransition
                         timeout={400}
                         classNames="fade"
-                        in={currentState.current !== 'lyric'}
+                        in={currentState.current === 'CD'}
                     >
                         <CDWrapper>
                             <div className="cd">

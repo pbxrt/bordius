@@ -7,6 +7,7 @@ import {
     getSuggestList,
     changeEnterLoading
 } from './store';
+import { getSongDetail } from '../Player/store'
 import {
     Container,
     ShortcutWrapper,
@@ -129,7 +130,7 @@ function Search(props) {
     };
 
     const selectItem = (e, id) => {
-
+        getSongDetailDispatch(id);
     }
 
     const renderSongs = () => {
@@ -210,6 +211,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getSuggestListDispatch (data) {
         dispatch(getSuggestList(data));
+    },
+    getSongDetailDispatch (id) {
+        dispatch(getSongDetail(id));
     }
 });
 

@@ -25,8 +25,7 @@ function Player(props) {
         currentSong: immutableCurrentSong,
         mode,
         sequencePlayList: immutableSequencePlayList,
-        playList: immutablePlayList,
-        showPlayList
+        playList: immutablePlayList
     } = props;
     const {
         toggleFullScreenDispatch,
@@ -260,7 +259,6 @@ function Player(props) {
                             currentLineNum={currentLineNum.current}
                         />
                         <PlayList></PlayList>
-                        
                     </>
                 )
             }
@@ -278,7 +276,6 @@ const mapStateToProps = state =>({
     fullScreen: state.getIn(['player', 'fullScreen']),
     playing: state.getIn(["player", "playing"]),
     currentSong: state.getIn(["player", "currentSong"]),
-    showPlayList: state.getIn(["player", "showPlayList"]),
     mode: state.getIn(["player", "mode"]),
     currentIndex: state.getIn(["player", "currentIndex"]),
     playList: state.getIn(["player", "playList"]),

@@ -34,6 +34,8 @@ export default (state = defaultState, action) => {
             return state.set ('showPlayList', action.data);
         case actionTypes.DELETE_SONG:
             return handleDeleteSong(state, action.data);
+        case actionTypes.INSERT_SONG:
+            return handleInsertSong(state, action.data);
         default:
             return state;
     }
@@ -56,4 +58,43 @@ const handleDeleteSong = (state, song) => {
         .set('currentIndex', currentIndex)
         .set('playList', newPlayList)
         .set('sequencePlayList', newSequencePlayList);
+}
+
+const handleInsertSong = (state, song) => {
+    let playList = state.get('playList');
+    let sequencePlayList = state.get('sequencePlayList');
+    let currentIndex = state.get('currentIndex');
+
+    // 播放列表中是否已存在该歌曲
+    let fpIndex = findIndex(song, playList.toJS());
+
+    // 当前正在播放，直接返回
+    if (fpIndex === -1) {
+        playList = playList.splice(currentIndex + 1, 0, song);
+    } else {
+        if (fpIndex === currentIndex) {
+            return state;
+        } else {
+            currentIndex = fpIndex;
+        }
+    }
+
+    // 播放列表中是否已存在该歌曲
+    let fsIndex = findIndex(song, sequencePlayList.toJS());
+
+    // 当前正在播放，直接返回
+    if (fsIndex === -1) {
+        sequencePlayList = sequencePlayList.splice(currentIndex + 1, 0, song);
+    } else {
+        if (fsIndex === currentIndex) {
+            return state;
+        } else {
+            currentIndex = fsIndex;
+        }
+    }
+
+    return state.set('playList', playList)
+        .set('sequencePlayList', sequencePlayList)
+        .set('currentIndex', currentIndex);
+
 }

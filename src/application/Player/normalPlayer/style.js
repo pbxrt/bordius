@@ -220,6 +220,7 @@ export const LyricContainer = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
+    opacity: 0;
     transition: opacity 0.4s linear;
     &.fade-enter {
       opacity: 0;
