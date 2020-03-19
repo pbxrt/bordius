@@ -16,3 +16,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - `better-scroll`: 提升移动端滑动体验的知名库
 - `styled-components`: 处理样式，体现 css in js 的前端工程化神器
 - `axios`: 用来请求后端 api 的数据
+
+样式部分：
+子元素的css属性的padding值如果是百分比的话，相对的是父元素宽度而言的
