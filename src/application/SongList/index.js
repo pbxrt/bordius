@@ -36,7 +36,8 @@ const SongsList = React.forwardRef((props, refs) => {
             position: 'fixed',
             top: y + 'px',
             left: x + 'px',
-            transition: 'left 1s linear',
+            transform: 'translateX(0)',
+            transition: 'transform 1s linear',
             zIndex: 100000
         });
         const note = document.createElement('div');
@@ -49,17 +50,16 @@ const SongsList = React.forwardRef((props, refs) => {
             borderRadius: '10px',
             fontSize: '16px',
             opacity: 1,
-            left: '-10px',
-            top: '-10px',
+            transform: `translate(-10px, -10px)`,
             color: 'red',
-            transition: 'top 1s cubic-bezier(.41,-0.17,.83,.67)'
+            transition: 'all 1s cubic-bezier(.41,-0.17,.83,.67)'
         });
         container.appendChild(note);
         document.body.appendChild(container);
         setTimeout(() => {
-            container.style.left = '30px';
+            container.style.transform = `translateX(${30 - x}px)`;
             Object.assign(note.style, {
-                top: `${followHeight}px`,
+                transform: `translate(-10px, ${followHeight}px)`,
                 opacity: '0.4'
             })
             setTimeout(() => {

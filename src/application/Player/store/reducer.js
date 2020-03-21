@@ -71,6 +71,7 @@ const handleInsertSong = (state, song) => {
     // 当前正在播放，直接返回
     if (fpIndex === -1) {
         playList = playList.splice(currentIndex + 1, 0, song);
+        currentIndex++;
     } else {
         if (fpIndex === currentIndex) {
             return state;
@@ -82,15 +83,8 @@ const handleInsertSong = (state, song) => {
     // 播放列表中是否已存在该歌曲
     let fsIndex = findIndex(song, sequencePlayList.toJS());
 
-    // 当前正在播放，直接返回
     if (fsIndex === -1) {
         sequencePlayList = sequencePlayList.splice(currentIndex + 1, 0, song);
-    } else {
-        if (fsIndex === currentIndex) {
-            return state;
-        } else {
-            currentIndex = fsIndex;
-        }
     }
 
     return state.set('playList', playList)
