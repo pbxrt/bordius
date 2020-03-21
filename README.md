@@ -17,12 +17,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - `styled-components`: 处理样式，体现 css in js 的前端工程化神器
 - `axios`: 用来请求后端 api 的数据
 
-TODO:
-- 音符陨落性能需要优化
-- CD 和歌词的切换不够顺畅，暂停时，歌词还是会滚动
-- CD 和歌词的切换需要用 useState 而不是 useRef，因为 useRef 不是引发UI 重新渲染
-
-学到了哪些之前不知道的东西：
+## 学到了哪些之前不知道的东西：
 1. 不改变元素大小，仅仅通过css就可以扩大元素点击范围
 2. better-scroll的封装
 3. react-lazyload 图片拉加载
@@ -34,3 +29,8 @@ TODO:
 9. audio 元素的使用
 10. css animation 有一个 属性，可以无缝切换动画的播放和暂停
 11. 学到了 useRef, useCallback, useMemo 的用法
+12. 子元素的css属性的padding值如果是百分比的话，相对的是父元素宽度而言的
+
+## TODO:
+- CD 和歌词的切换不够顺畅，暂停时，歌词还是会滚动
+- CD 和歌词的切换需要用 useState 而不是 useRef，因为 useRef 不是引发UI 重新渲染
