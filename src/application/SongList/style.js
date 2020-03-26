@@ -3,17 +3,19 @@ import style from '../../assets/global-style';
 
 export const SongList = styled.div`
     border-radius: 10px;
-    opacity: 0.98;
-    ${props => props.showBackground ? `background: ${style["highlight-background-color"]}`: ""}
+    ${props => props.showBackground ? `background: ${style["highlight-background-color"]}`: ""};
+    overflow: auto;
     .first_line {
         box-sizing: border-box;
-        padding: 10px 0;
-        margin-left: 10px;
+        padding: 10px 0 10px 10px;
         position: relative;
         justify-content: space-between;
         border-bottom: 1px solid ${style["border-color"]};
+        background: #fff;
+        border-radius: 10px 10px 0 0;
         .play_all {
             display: inline-block;
+            font-size: 16px;
             line-height: 24px;
             color: ${style["font-color-desc"]};
             .iconfont {
@@ -59,6 +61,7 @@ export const SongList = styled.div`
 }
 `
 export const SongItem = styled.ul`
+    background: #fff;
     >li {
         display: flex;
         height: 60px;

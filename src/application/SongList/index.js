@@ -9,7 +9,7 @@ import {
 } from '../../application/Player/store/actionCreators';
 
 const SongsList = React.forwardRef((props, refs) => {
-    const { collectCount, showCollect, songs } = props;
+    const { collectCount, showCollect, songs, marginTop } = props;
     const totalCount = songs.length;
     const {
         changePlayListDispatch,
@@ -96,10 +96,11 @@ const SongsList = React.forwardRef((props, refs) => {
 
     return (
         <SongList ref={refs} showBackground={props.showBackground}>
+            {props.children || null}
             <div className="first_line">
                 <div className="play_all" onClick={(e) => selectItem (e, 0)}>
                     <i className="iconfont">&#xe6e3;</i>
-                    <span> 播放全部 <span className="sum">(共 {totalCount} 首)</span></span>
+                    <span>播放全部<span className="sum"> (共{totalCount}首)</span></span>
                 </div>
                 { showCollect ? collect (collectCount) : null}
             </div>

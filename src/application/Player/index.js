@@ -88,7 +88,7 @@ function Player(props) {
         }).catch(err => {
             console.log(err);
             songReady.current = true;
-            audioRef.currrent.play();
+            audioRef.current.play();
         })
     }
 

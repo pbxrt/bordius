@@ -10,7 +10,7 @@ export const Container = styled.div`
     width: 100%;
     z-index: 100;
     overflow: hidden;
-    background: #f2f3f4;
+    background: #fff;
     transform-origin: right bottom;
     transition: transform 0.3s;
     &.fly-enter, &.fly-appear {
@@ -28,13 +28,14 @@ export const Container = styled.div`
 `;
 
 export const ImgWrapper = styled.div`
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 0;
-    padding-top: 75%;
-    transform-origin: top;
+    height: 75vw;
     background: url(${props => props.bgUrl}) no-repeat top center;
     background-size: cover;
+    transform-origin: center top;
     z-index: 50;
     > .filter {
         position: absolute;
@@ -42,19 +43,25 @@ export const ImgWrapper = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba (7, 17, 27, 0.3);
+        background: rgba(7, 17, 27, 0.3);
     }
 `;
 
-export const CollectButton = styled.div`
+export const SongListContainer = styled.div`
     position: absolute;
-    left: 0; right: 0;
-    margin: auto;
+    top: 40px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 60;
+    overflow: auto;
+`;
+
+export const CollectButton = styled.div`
+    margin: calc(75vw - 100px) auto 10px;
     box-sizing: border-box;
     width: 120px;
     height: 40px;
-    margin-top: -55px;
-    z-index: 50;
     background: ${style["theme-color"]};
     color: ${style["font-color-light"]};
     border-radius: 20px;
@@ -71,27 +78,5 @@ export const CollectButton = styled.div`
         display: inline-block;
         font-size: 14px;
         letter-spacing: 5px;
-    }
-`;
-
-export const BgLayer = styled.div`
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    background: #fff;
-    border-radius: 10px;
-    z-index: 50;
-`;
-
-export const SongListWrapper = styled.div`
-    position: absolute;
-    z-index: 50;
-    top: 0; left: 0; right: 0; bottom: 0;
-    > div {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        overflow: visible;
     }
 `;
