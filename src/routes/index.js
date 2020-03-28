@@ -8,6 +8,7 @@ const RankComponent = lazy(() => import('../application/Rank'));
 const SingerComponent = lazy(() => import('../application/Singer'));
 const AlbumComponent = lazy(() => import('../application/Album'));
 const SearchComponent = lazy(() => import('../application/Search'));
+const Test = lazy(() => import('../application/Test'));
 
 
 // props 是 React 传下去的，包括 history 等 props
@@ -73,6 +74,12 @@ export default [
                 exact: true,
                 key: "album",
                 component: SuspenseComponent(AlbumComponent)
+            },
+            {
+                path: "/test",
+                exact: true,
+                key: "test",
+                component: SuspenseComponent(Test)
             }
         ]
     }
