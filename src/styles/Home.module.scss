@@ -1,0 +1,63 @@
+.main {
+    position: relative;
+    .video {
+        display: block;
+        margin: 100px auto;
+        padding: 0 20px;
+        width: 960px;
+        max-width: 100%;
+    }
+}
+.header {
+    position: sticky;
+    top: 0;
+    padding: 12px 20px;
+    background: #fff;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(64px);
+    .logo {
+        border-radius: 8px;
+        margin-right: 8px;
+    }
+    h1 {
+        margin: 4px 0 0 4px;
+        font-size: 20px;
+        font-weight: normal;
+    }
+    ul {
+        margin-left: auto;
+    }
+}
+.word {
+    margin: 100px auto 10px;
+    max-width: 60vw;
+    text-align: center;
+    h1 {
+        font-size: 120px;
+    }
+    @media screen and (max-width: 600px) {
+        h1 {
+            font-size: 12vw;
+        }
+    }
+}
+
+.banner {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    pointer-events: none;
+    transform: translateX(-50%);
+    display: block;
+    margin: 0 auto;
+    filter: blur(140px);
+}
+.fileInput {
+    position: absolute;
+    left: -9999px;
+}
+
+.footer {
+    margin: 60px;
+}

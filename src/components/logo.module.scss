@@ -1,0 +1,11 @@
+.goBack {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+        .badge {
+            border-radius: 12px;
+            box-shadow: 0 0 6px 2px blue;
+        }
+    }
+}

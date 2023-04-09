@@ -1,0 +1,148 @@
+.main {
+    display: flex;
+    margin: 0 52px;
+    height: calc(100vh - 76px);
+    .tools {
+        margin-top: 32px;
+        width: 64px;
+        .toolItem {
+            width: 64px;
+            height: 64px;
+            &:not(:last-child) {
+                margin-bottom: 12px;
+            }
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            border-radius: 12px;
+            background: transparent;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            &:hover {
+                box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            }
+            &.active {
+                background: rgba(255, 255, 255, 0.3);
+            }
+            svg {
+                width: 16px;
+                height: 16px;
+                margin-bottom: 4px;
+            }
+        }
+    }
+    .canvasWrapper {
+        flex: 1;
+        margin: 32px;
+        display: flex;
+        .canvasContainer {
+            margin: auto;
+            position: relative;
+            // background: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(red, red 50px, blue 50px, blue 100px),linear-gradient(to right, red, red 50px, blue 50px, blue 100px);
+            background-size: 100px 100px;
+            background-repeat: repeat;
+            border-radius: 8px;
+            overflow: hidden;
+            .originalImg {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center center;
+            }
+            .cropContainer {
+                position: absolute;
+                box-shadow: 0 0 0 9999px rgba(0,0,0,0.9);
+                border: 2px solid #fff;
+                &.corner {
+                    box-shadow: 0 0 0 9999px #000;
+                    border: 2px dashed rgba(255, 255, 0, 0.4);
+                    border-spacing: 60px;
+                    .dragCircle {
+                        display: none;
+                    }
+                    .centerMove {
+                        display: none;
+                    }
+                }
+                .line {
+                    position: absolute;
+                    &.top {
+                        width: 100%;
+                        height: 10px;
+                        top: -5px;
+                        cursor: ns-resize;
+                    }
+                    &.right {
+                        width: 10px;
+                        height: 100%;
+                        right: -5px;
+                        cursor: ew-resize;
+                    }
+                    &.bottom {
+                        width: 100%;
+                        height: 10px;
+                        bottom: -5px;
+                        cursor: ns-resize;
+                    }
+                    &.left {
+                        width: 10px;
+                        height: 100%;
+                        left: -5px;
+                        cursor: ew-resize;
+                    }
+                }
+                .dragCircle {
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    background: #fff;
+                    &.topLeft {
+                        top: -10px;
+                        left: -10px;
+                        cursor: nwse-resize;
+                    }
+                    &.topRight {
+                        top: -10px;
+                        right: -10px;
+                        cursor: nesw-resize;
+                    }
+                    &.bottomRight {
+                        bottom: -10px;
+                        right: -10px;
+                        cursor: nwse-resize;
+                    }
+                    &.bottomLeft {
+                        left: -10px;
+                        bottom: -10px;
+                        cursor: nesw-resize;
+                    }
+                }
+                .centerMove {
+                    position: absolute;
+                    left: 5%;
+                    top: 5%;
+                    width: 90%;
+                    height: 90%;
+                    cursor: move;
+                }
+            }
+        }
+    }
+    .subTools {
+        position: absolute;
+        width: 50%;
+        left: 25%;
+        bottom: 0;
+        height: 100px;
+    }
+    .finishBtn {
+        position: absolute;
+        top: 108px;
+        right: 60px;
+    }
+}
