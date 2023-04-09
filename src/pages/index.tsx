@@ -15,6 +15,7 @@ export default function Home() {
     }
     const inputRef = useRef<HTMLInputElement | null>(null);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // @ts-ignore
         window.filesRef = event.target.files;
         router.push('/edit');
     }

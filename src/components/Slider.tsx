@@ -2,8 +2,8 @@ import styles from '@/styles/slider.module.scss';
 
 interface Props {
     max: number;
-    value: number;
-    onChange: (e: React.ChangeEvent) => void;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Slider({ max, value, onChange }: Props) {

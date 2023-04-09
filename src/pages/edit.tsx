@@ -73,12 +73,13 @@ export default function Edit() {
         y: 25,
         width: 50,
         height: 50,
-        borderRadius: 0,
+        borderRadius: '0',
     })
 
     const [imgObjectURL, setImgObjectURL] = useState('');
 
     useEffect(() => {
+        // @ts-ignore
         const files = window.filesRef;
         if (!files) {
             router.push('/');
