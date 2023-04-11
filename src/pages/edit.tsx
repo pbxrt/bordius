@@ -3,18 +3,18 @@ import { Button, Text, Badge, Container, Row, Col, Input, Spacer } from '@nextui
 import styles from '@/styles/edit.module.scss'
 import { useRouter } from 'next/router';
 import { NavBarInEditPage } from '@/components/NavBar';
-import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import { getImageSize } from '@/utils/index';
 import Slider from '@/components/Slider';
 import { generateImg } from '@/utils/index';
+import Drawer from '@/components/Drawer';
 
 export default function Edit() {
     const router = useRouter();
-    const naturalSizeRef = useRef<any>()
     const [ activeBtn, setActiveBtn ] = useState('crop');
     const canvasContainerRef = useRef<any>();
     const canvasWrapperRef = useRef<any>();
+    const [restImgs, setRestImgs] = useState<string[]>([]);
 
     const topLineRef = useRef<any>();
     const rightLineRef = useRef<any>();
@@ -29,6 +29,7 @@ export default function Edit() {
     const centerMoveRef = useRef<any>();
 
     const imgRef = useRef<any>();
+    const ulRef = useRef<any>();
 
     const [layout, setLayout] = useState({
         direction: 'landscape',
@@ -69,10 +70,10 @@ export default function Edit() {
     });
 
     const [crop, setCrop] = useState({
-        x: 25,
-        y: 25,
-        width: 50,
-        height: 50,
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 100,
         borderRadius: '0',
     })
 
@@ -80,7 +81,7 @@ export default function Edit() {
 
     useEffect(() => {
         // @ts-ignore
-        const files = window.filesRef;
+        const files: File[] = window.filesRef;
         if (!files) {
             router.push('/');
             return;
@@ -108,6 +109,11 @@ export default function Edit() {
                     });
                 }
             });
+            if (files.length > 1) {
+                setRestImgs(
+                    Array.prototype.slice.call(files, 1).map((file) => window.URL.createObjectURL(file))
+                );
+            }
         }
 
         topLineRef.current.addEventListener('mousedown', (e: MouseEvent) => {
@@ -312,8 +318,13 @@ export default function Edit() {
         }
     }, [crop]);
 
-    const onFinish = () => {
-        generateImg(imgRef.current, crop);
+    const onFinish = async () => {
+        await generateImg(imgRef.current, crop, true);
+        if (ulRef.current) {
+            for (let i = 0; i < ulRef.current.children.length; i++) {
+                await generateImg(ulRef.current.children[i], crop, false);
+            }
+        }
     }
 
     return (
@@ -366,6 +377,17 @@ export default function Edit() {
                     完成
                 </Button>
             </div>
+            {
+                restImgs.length ? (
+                    <Drawer>
+                        <ul ref={ulRef}>
+                            {restImgs.map(url => (
+                                <img key={url} className={styles.restImg} src={url} alt="img"></img>
+                            ))}
+                        </ul>
+                    </Drawer>
+                ) : null
+            }
         </>
     )
 }

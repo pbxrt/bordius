@@ -9,23 +9,17 @@ export const getImageSize = (file: File): Promise<[number, number]> => {
     });
 }
 
-export const generateImg = (img: HTMLImageElement, crop: any) => {
-    const ratio = window.devicePixelRatio;
+let templateWidth: number;
+export const generateImg = async (img: HTMLImageElement, crop: any, isTemplate?: boolean) => {
     const { naturalWidth, naturalHeight, width } = img;
+    if (isTemplate) {
+        templateWidth = width;
+    }
     const x = naturalWidth * crop.x / 100 // 裁剪框左上角x坐标
     var y = naturalHeight * crop.y / 100; // 裁剪框左上角y坐标
     var w = naturalWidth * crop.width / 100; // 裁剪框宽度
     var h = naturalHeight * crop.height / 100; // 裁剪框高度
-    var borderRadius = +crop.borderRadius * naturalWidth / width; // 裁剪框的border-radius值
-
-    // 创建一个canvas，并将img绘制到canvas上
-    // var canvas = document.createElement('canvas');
-    // canvas.width = naturalWidth;
-    // canvas.height = naturalHeight;
-    // var ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    // ctx.drawImage(img, 0, 0);
-
-    // document.body.appendChild(canvas);
+    var borderRadius = +crop.borderRadius * naturalWidth / templateWidth; // 裁剪框的border-radius值
 
     // 在新的canvas上绘制裁剪后的部分
     var newCanvas = document.createElement('canvas');
@@ -84,4 +78,8 @@ export const generateImg = (img: HTMLImageElement, crop: any) => {
     downloadLink.href = dataURL;
     downloadLink.download = 'cropped-image.png';
     downloadLink.click();
+
+    await new Promise(resolve => {
+        setTimeout(resolve, 300);
+    });
 }

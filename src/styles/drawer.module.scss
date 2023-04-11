@@ -1,0 +1,46 @@
+.wrapper {
+    --width: 20vw;
+    display: flex;
+    position: fixed;
+    width: calc(var(--width) + 30px);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    &.hide {
+        transform: translateX(var(--width));
+    }
+    &.show {
+        transform: translateX(0);
+        .toggle {
+            transform: rotateZ(180deg);
+        }
+    }
+    .toggle {
+        margin-top: 30vh;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        border-radius: 12px;
+        transition: transform 0.2s 0.4s ease;
+        &:hover {
+            box-shadow: 0 0 10px yellow;
+        }
+    }
+    .p16 {
+        width: var(--width);
+        height: 100%;
+        overflow: auto;
+        padding: 16px;
+        box-sizing: border-box;
+        background: #1f1f1f;
+        h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+    }
+}
