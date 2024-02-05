@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button, Text, Badge, Container, Row, Col, Input, Spacer } from '@nextui-org/react';
+import { GoBack } from '@/components/AcmeLogo';
+import { Navbar } from '@nextui-org/react'
 import styles from '@/styles/edit.module.scss'
 import { useRouter } from 'next/router';
-import { NavBarInEditPage } from '@/components/NavBar';
 import 'react-image-crop/dist/ReactCrop.css'
 import { getImageSize } from '@/utils/index';
 import Slider from '@/components/Slider';
@@ -11,7 +12,7 @@ import Drawer from '@/components/Drawer';
 
 export default function Edit() {
     const router = useRouter();
-    const [ activeBtn, setActiveBtn ] = useState('crop');
+    const [ activeBtn, setActiveBtn ] = useState('corner');
     const canvasContainerRef = useRef<any>();
     const canvasWrapperRef = useRef<any>();
     const [restImgs, setRestImgs] = useState<string[]>([]);
@@ -329,7 +330,16 @@ export default function Edit() {
 
     return (
         <>
-            <NavBarInEditPage />
+            <Navbar variant={'sticky'} isBordered={true}>
+                <Navbar.Brand>
+                    <GoBack />
+                </Navbar.Brand>
+                <Navbar.Content hideIn="xs">
+                    <Button color="warning" size="sm" onClick={onFinish}>
+                        导出
+                    </Button>
+                </Navbar.Content>
+            </Navbar>
             <div className={styles.main}>
                 <ul className={styles.tools}>
                     <li className={`${styles.toolItem} ${activeBtn === 'crop' ? styles.active : ''}`} onClick={() => setActiveBtn('crop')}>
@@ -373,9 +383,6 @@ export default function Edit() {
                         ) : null
                     }
                 </div>
-                <Button className={styles.finishBtn} size="sm" shadow color="warning" auto onClick={onFinish}>
-                    完成
-                </Button>
             </div>
             {
                 restImgs.length ? (

@@ -1,34 +1,20 @@
 import { Navbar } from '@nextui-org/react'
 import AcmeLogo, { GoBack } from '@/components/AcmeLogo';
+import { useRouter } from 'next/router';
 
 export default function NavBar() {
+    const router = useRouter();
+    const onClick = () => {
+        window.open('/about', '_blank');
+    }
     return (
         <Navbar variant={'sticky'} isBordered={true}>
             <Navbar.Brand>
                 <AcmeLogo />
             </Navbar.Brand>
             <Navbar.Content hideIn="xs">
-                <Navbar.Link href="#">Features</Navbar.Link>
+                <Navbar.Link onClick={onClick}>关于</Navbar.Link>
             </Navbar.Content>
-            {/* <Navbar.Content>
-                        <Navbar.Link color="inherit" href="#">Login</Navbar.Link>
-                        <Navbar.Item>
-                            <Button auto flat as={Link} href="#">Sign Up</Button>
-                        </Navbar.Item>
-                    </Navbar.Content> */}
         </Navbar>
     )
-}
-
-export function NavBarInEditPage() {
-    return (
-        <Navbar variant={'sticky'} isBordered={true}>
-            <Navbar.Brand>
-                <GoBack />
-            </Navbar.Brand>
-            <Navbar.Content hideIn="xs">
-                <Navbar.Link href="#">Features</Navbar.Link>
-            </Navbar.Content>
-        </Navbar>
-    );
 }

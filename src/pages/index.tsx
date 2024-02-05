@@ -20,6 +20,10 @@ export default function Home() {
         router.push('/edit');
     }
     const triggerInputFile = () => {
+        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            alert('暂不支持手机浏览器，请用桌面浏览器打开此页面~')
+            return;
+        }
         inputRef.current?.click();
     }
     return (

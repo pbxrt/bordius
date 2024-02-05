@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Drawer = ({ children }: Props) => {
-    const [mode, setMode] = useState('hide');
+    const [mode, setMode] = useState('show');
 
     const toggleMode = () => {
         if (mode === 'hide') {
